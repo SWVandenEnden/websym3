@@ -83,7 +83,7 @@ class drawBase {
       this.oElement = null ;
    }
 
-   // destructor is never called so an special function too destroy the class
+   // destructor is never called so an special function to destroy the class
    destroyClass() {
       this.deleteElement();
    }
