@@ -1,0 +1,120 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{title}}</title>
+
+<link rel="stylesheet" href="../style/common.css">
+<link rel="stylesheet" href="../style/flexpage.css">
+<link rel="stylesheet" href="../style/graphPage.css">
+
+<script src="../javascript/graphCommon.js"></script>
+<script src="../javascript/graphDraw.js"></script>
+<script src="../javascript/graphPage.js"></script>
+
+</head>
+<body onload="init()">
+{{versioninformation}}
+{{pageheader}}
+<div id="divPageContainer" class="divPageContainer">
+  <div id="divFormula">
+    <div id="divFormulaButtons">
+       <button type="button" id="buttonAddGraph"    class="buttonInput" onclick="fncAddGraphDiv( 'new' )">Add graph</button>
+       <button type="button" id="buttonCollapseAll" class="buttonInput" onclick="fncCollpaseAll()">Collapse all</button>
+    </div>
+    <div id="divFormula_1">
+      <div id="divFormulaCode_1" class="divFormulaCode"> 
+        <input id="inputFieldCode_1" class="inputWidth inputFieldCode" type="text" value="" title="Code">
+        <button type="button" id="buttonInputSmaller_1" class="buttonInputSmaller" onclick="fncButtonSmaller( '1' )">▲</button>
+      </div>
+      <div id="divFormlaData_1">
+        <div>
+          <textarea id="inputFieldFormula_1" class="inputFormulaText inputFieldFormula"></textarea>
+        </div>
+        <div class="smallEmptyLine"></div>
+        <div>
+          X variable <input id="inputFieldVarCalc_1" class="inputWidth inputFieldVarName" type="text" value="">
+          step
+          <input id="inputFieldVarStep_1" class="inputWidth inputFieldVarStep" type="text" value="">
+          <button type="button" id="buttonInputDelete_1" class="buttonInput buttonInputDelete" onclick="fncGraphDelete('1')">Delete</button>
+        </div>
+        <div class="smallEmptyLine"></div>
+        <div>
+          X from 
+          <input id="inputFieldXFrom_1" class="inputWidth inputFieldVarNumber" type="text" value="">
+          to
+          <input id="inputFieldXTo_1" class="inputWidth inputFieldVarNumber" type="text" value="">
+          step
+          <input id="inputFieldXStep_1" class="inputWidth inputFieldVarStep" type="text" value="">
+        </div>
+        <div>
+          Y from
+          <input id="inputFieldYFrom_1" class="inputWidth inputFieldVarNumber" type="text" value="">
+          to
+          <input id="inputFieldYTo_1" class="inputWidth inputFieldVarNumber" type="text" value="">
+          step
+          <input id="inputFieldYStep_1" class="inputWidth inputFieldVarStep" type="text" value="">
+        </div>
+        <div class="smallEmptyLine"></div>
+        <table class="tableFieldColors">
+          <tr class="trFieldColorsHead">
+           <td>Line</td><td>Axe</td><td>Number</td><td>Grid</td>
+          </tr>
+          <tr class="trFieldColorsColor">
+           <td><input id="inputFieldColorGraphLine_1"   class="inputColor" type="color" value=""></td>
+           <td><input id="inputFieldColorGraphAxe_1"    class="inputColor" type="color" value=""></td>
+           <td><input id="inputFieldColorGraphNumber_1" class="inputColor" type="color" value=""></td>
+           <td><input id="inputFieldColorGraphGrid_1"   class="inputColor" type="color" value=""></td>
+          </tr>
+          <tr>
+            <td>Show:</td>
+            <td><input type="checkbox" id="inputCheckColorGraphAxe_1"    ></td>
+            <td><input type="checkbox" id="inputCheckColorGraphNumber_1" ></td>
+            <td><input type="checkbox" id="inputCheckColorGraphGrid_1"   ></td>
+          </tr>
+        </table>
+        <div class="smallEmptyLine"></div>
+        <div>
+           Fixed variables
+        </div>
+        <div>
+          <input id="inputFieldFixedName_1_1"  class="inputWidth inputFieldVarName" type="text" value="">
+          <input id="inputFieldFixedValue_1_1" class="inputWidth inputFieldVarFixedValue" type="text" value="">
+        </div>
+        <div>
+          <input id="inputFieldFixedName_2_1"  class="inputWidth inputFieldVarName" type="text" value="">
+          <input id="inputFieldFixedValue_2_1" class="inputWidth inputFieldVarFixedValue" type="text" value="">
+        </div>
+        <div>
+          <input id="inputFieldFixedName_3_1"  class="inputWidth inputFieldVarName" type="text" value="">
+          <input id="inputFieldFixedValue_3_1" class="inputWidth inputFieldVarFixedValue" type="text" value="">
+        </div>
+        <div>
+          <input id="inputFieldFixedName_4_1"  class="inputWidth inputFieldVarName" type="text" value="">
+          <input id="inputFieldFixedValue_4_1" class="inputWidth inputFieldVarFixedValue" type="text" value="">
+        </div>
+        <div>
+          <input id="inputFieldFixedName_5_1"  class="inputWidth inputFieldVarName" type="text" value="">
+          <input id="inputFieldFixedValue_5_1" class="inputWidth inputFieldVarFixedValue" type="text" value="">
+        </div>
+        <div>
+          <input id="inputFieldFixedName_6_1"  class="inputWidth inputFieldVarName" type="text" value="">
+          <input id="inputFieldFixedValue_6_1" class="inputWidth inputFieldVarFixedValue" type="text" value="">
+        </div>
+        
+         <div class="smallEmptyLine"></div>
+
+        <div>
+          <button type="button" id="buttonInputSave_1"     class="buttonInput buttonInputSave"     onclick="fncGraphSave( '1' )">Save</button>
+          <button type="button" id="buttonInputCalc_1"     class="buttonInput buttonInputCalc"     onclick="fncGraphCalc( '1' )">Show graph</button>
+          <button type="button" id="buttonInputDelGraph_1" class="buttonInput buttonInputDelGraph" onclick="fncGraphHide( '1' )">Hide graph</button>
+        </div>
+        <div class="smallEmptyLine"></div>
+      </div>
+    </div>  
+  </div>
+  <div id="divGraph">
+  </div>
+</div>  
+</body>

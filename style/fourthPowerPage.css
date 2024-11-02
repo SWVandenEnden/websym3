@@ -1,0 +1,82 @@
+
+
+#selectMathFourthpower {
+  height: 100%;
+  width : 100%;
+}
+
+.inputSelect {
+  width       : 16em;
+  margin-left : 2px;
+  margin-right: 4px;
+  resize      : both
+}
+.divRight {
+  width: calc( 100% - 16em );
+}
+
+.inputForm {
+  height    : 43%;
+  min-height: 290px;
+}
+
+.inputIFrame {
+  height: 57%;
+  border: 1px solid black;
+}
+
+.buttonRight {
+  float: right;
+}
+
+.inputFormulaContainer {
+  display       : flex;
+  flex-direction: column;
+  width         : 100%;
+  height        : 100%;
+}
+
+.inputFormulaHeader {
+  flex-grow: 0;
+}
+
+.inputFormulaContent {
+  flex-grow: 1;
+}
+
+.inputFormulaOptions {
+  flex-grow: 0;
+}
+
+.inputFormulaFooter {
+  flex-grow: 0;
+  height   : 2em;
+}
+
+.buttonVericalCenter {
+  margin-top: 0.5em;
+  width     : 8em;
+}
+
+.labelWidth {
+  float: left;
+  width: 10%;
+}
+
+.inputWidth {
+  float: right;
+  width: 90%;
+}
+
+textarea.inputText {
+  margin-top   : 4px;
+  margin-bottom: 4px;
+  width        : 100%;
+  height       : 6em;
+  resize       : none;
+}
+
+iframe {
+  width : 100%;
+  height: 100%;
+}

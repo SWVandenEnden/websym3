@@ -1,0 +1,123 @@
+
+#divPageContainer {
+  display: flex;
+  height : calc( 100% - 4em);
+}
+
+#divFormula {
+  margin-right : 1px;
+  border       : 1px solid LightGray;
+  width        : 30%;
+  overflow-y   : scroll;
+  padding-right: 6px;    /* room for scrollbar */
+}
+#divGraph {
+  margin-left: 1px;
+  border     : 1px solid LightGray;
+  width      : 70%;
+  position   : relative;
+}
+
+#svgGraph {
+  width : 100%;
+  height: 100%;
+}
+
+#divFormulaButtons {
+  margin-bottom:1px;
+}
+
+.divFormulaCode {
+  margin-bottom:1px;
+}
+
+.inputFieldCode {
+  width        : calc( 100% - 2.5em );  
+  border       : 1px solid black;
+  border-radius: 1px;
+   
+}
+
+.inputFieldCode:read-only {
+  background-color: #f0f0f5;  /* light gray */
+}
+
+.buttonInputSmaller {
+  width        : 2em;
+  float        : right;
+  border       : 1px solid black;
+  border-radius: 4px;
+}
+
+.inputFieldFormula {
+  width     : 100%;
+  min-height: 6em;
+}
+
+.inputFieldVarName {
+  width: 3em;
+}
+.inputFieldVarNumber {
+  width: 4em;
+}
+.inputFieldVarStep {
+  width: 8em;
+}
+
+.inputColor {
+  height : 1.1em;
+  padding: 0px;
+  width  : 5em;
+}
+
+.tableFieldColors {
+  width  : 100%;
+  border : 1px solid lightgray;
+  padding: 0px;
+  margin : 0px;
+}
+
+.tableFieldColors td {
+  text-align: center;
+  width     : 25%;
+}
+
+.trFieldColorsColor td {
+  height : 1em;
+  padding: 0px;
+}
+
+.trFieldColorsColor .inputColor {
+  width : 100%;
+  height: 16px;
+}
+
+.buttonInput {
+  width: 8em;
+}
+
+.buttonInputSave {
+  width:33%;
+  float: left;
+}
+
+.buttonInputCalc {
+  width: 33%;
+}
+
+.buttonInputDelGraph {
+  width: 33%;
+  float: right;
+}
+
+.buttonInputDelete {
+  float: right;
+}
+
+.inputFieldVarFixedValue {
+  width: 16em;
+}
+
+.smallEmptyLine {
+  height: 8px;
+}

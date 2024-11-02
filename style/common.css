@@ -1,0 +1,39 @@
+/*
+** common css
+*/
+.center {
+  text-align: center;
+}
+
+/*
+** page header/title css
+*/
+.pageHeader {
+   text-shadow   :  1px 1px 2px gray;
+   margin        :  0px;
+   padding       :  0px;
+   padding-top   : 10px;
+   padding-bottom: 10px;
+}
+
+/*
+** version information
+*/
+.versioninfo {
+   position      : absolute;
+   top           : 0;
+   right         : 0;
+   padding-right : 8px;
+   padding-top   : 2px;
+   color         : gray;
+   font-size     : 85%;
+}
+
+.versioninfo a {
+  text-decoration: none;
+  color          : gray;
+}
+
+.menu, .menu a {
+  color: black;
+}
