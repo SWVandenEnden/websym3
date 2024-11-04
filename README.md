@@ -5,7 +5,7 @@ A graphical (web) user interface to the Python module Symbolic Expression 3 (sym
 ## Installation
 Download of make a git clone of WebSym3
 ```
-git clone https://github.com/swvandenenden/websym3
+git clone https://github.com/SWVandenEnden/websym3.git
 ```
 Go to the project root directory and update or install dependencies: 
 ``` 
@@ -36,7 +36,7 @@ autoopenurl=<True/False> # Enable or disable automatic start url, default True
 ```
 
 ### Command line
-To get all the command line options
+To see all the command line options (help)
 ```
 python websym3.py -h
 ```
