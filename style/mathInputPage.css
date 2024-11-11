@@ -12,6 +12,12 @@
    height: 100%;
 }
 
+/* too many items, max 16 display with scroll bar */
+#menuFunctions {
+  overflow  : scroll;
+  max-height: 16em;
+}
+
 #buttonSelectVariableAdd, #buttonSelectVariableRemove {
    height: 2em;
 }

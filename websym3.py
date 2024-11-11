@@ -36,7 +36,7 @@ from pathlib import Path
 import websymexpress3
 
 # ---------- Version information ---------------
-__version__     = "0.0.4"
+__version__     = "0.0.5"
 
 __author__      = "Gien van den Enden"
 __copyright__   = "Copyright 2024, Gien van den Enden"

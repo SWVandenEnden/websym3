@@ -12,6 +12,10 @@ The start html output of WebSymExpress3
 import os
 import sys
 
+import symexpress3
+import cubicequation
+import quarticequation
+
 from html import escape
 
 from websymexpress3.webcgi   import cgiClass       # https://stackoverflow.com/questions/275174/how-do-i-perform-html-decoding-encoding-using-python-django
@@ -114,6 +118,21 @@ def InfoHtmlPage(cgi, settings):
   """
   Generate the html information page
   """
+  def _addVersion( html, title, version ):
+    html.addBody('<tr>')
+
+    html.addBody('<td>')
+    html.addBody( escape( title ) )
+    html.addBody('</td>')
+
+    html.addBody('<td>&nbsp;&nbsp;</td>')
+
+    html.addBody('<td>')
+    html.addBody( escape( version ) )
+    html.addBody('</td>')
+
+    html.addBody('</tr>')
+
   html = htmlClass.HtmlClass( settings )
   html.addVersionAndCssCommonLink()
   html.addHtmlHeadTitleAndPageHeader()
@@ -125,6 +144,16 @@ def InfoHtmlPage(cgi, settings):
   html.addCss( '.bold {' )
   html.addCss( '  font-weight: bold;' )
   html.addCss( '}' )
+
+  html.addBody( '<h2 class="center">Versions</h2>')
+
+  html.addBody( '<table>' )
+  _addVersion( html, 'websym3'        , settings.version            )
+  _addVersion( html, 'symexpress3'    , symexpress3.__version__     )
+  _addVersion( html, 'cubicequation'  , cubicequation.__version__   )
+  _addVersion( html, 'quarticequation', quarticequation.__version__ )
+  html.addBody( '</table>' )
+
 
   html.addBody( '<h2 class="center">Configuration</h2>')
 
