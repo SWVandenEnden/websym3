@@ -3,7 +3,7 @@
 A graphical (web) user interface to the Python module Symbolic Expression 3 (symexpress3)
 
 ## Installation
-Download of make a git clone of WebSym3
+Download or make a git clone of WebSym3
 ```
 git clone https://github.com/SWVandenEnden/websym3.git
 ```
