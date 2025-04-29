@@ -29,12 +29,17 @@
 
 .tdButtonSelectVariable {
   text-align: center;
-  vertical-align: bottom;   
+  vertical-align: bottom;
 }
 
 .tdButtonSelectOptimzeCustom {
   text-align: center;
-  vertical-align: middle;   
+  vertical-align: middle;
+}
+
+#checkBoxInputFieldBigCustom {
+  position: relative;
+  top: -1.5em;
 }
 
 .inputSelect {
@@ -88,7 +93,7 @@ table.inputFormula {
 
 .inputFormulaOptions {
   flex-grow: 0;
-  
+
 }
 
 .inputFormulaFooter {
@@ -107,7 +112,7 @@ table.inputFormula {
 }
 
 .inputWidth {
-   float : right; 
+   float : right;
    width : 80%;
 }
 
@@ -192,4 +197,24 @@ iframe {
 .dropdown-content a:hover {background-color: #ddd;}
 
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
-.show {display:block;} 
+.show {display:block;}
+
+
+/* make the selection of action big */
+/* check box to make it big         */
+/* see javascript file mathInputPage.js - fncCheckBoxInputFieldBigCustomPress()
+  for dynamic add and remove these styles
+.optBigSelectActionHide {
+  display: None;
+}
+.widthSelectOptimzeCustom  {
+  width: 550px;
+  height: 32em;
+}
+.inputForm {
+  height: 100%;
+}
+.inputIFrame {
+  display: None;
+}
+*/

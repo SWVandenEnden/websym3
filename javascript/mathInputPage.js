@@ -1,5 +1,5 @@
 /*
-  
+
 */
 
 // init after load page
@@ -18,10 +18,11 @@ var name_inputFormulaCalc             = "inputFormulaCalc"            ;
 var name_inputFormulaReplace          = "inputFormulaReplace"         ;
 var name_inputFieldOptimzeCustom      = "inputFieldOptimzeCustom"     ;
 var name_buttonInputFieldAddCustom    = "buttonInputFieldAddCustom"   ;
-var name_buttonInputFieldRemoveCustom = "buttonInputFieldRemoveCustom"; 
+var name_buttonInputFieldRemoveCustom = "buttonInputFieldRemoveCustom";
 var name_inputFieldOptimzeSelected    = "inputFieldOptimzeSelected"   ;
 var name_buttonInputFieldUpCustom     = "buttonInputFieldUpCustom"    ;
 var name_buttonInputFieldDownCustom   = "buttonInputFieldDownCustom"  ;
+var name_checkBoxInputFieldBigCustom  = "checkBoxInputFieldBigCustom" ;
 
 var name_inputFormulaVarName          = "inputFormulaVarName"       ;
 var name_inputFormulaVarValue         = "inputFormulaVarValue"      ;
@@ -47,6 +48,7 @@ var elem_buttonInputFieldRemoveCustom = null;
 var elem_inputFieldOptimzeSelected    = null;
 var elem_buttonInputFieldUpCustom     = null;
 var elem_buttonInputFieldDownCustom   = null;
+var elem_checkBoxInputFieldBigCustom  = null;
 
 var elem_inputFormulaVarName          = null;
 var elem_inputFormulaVarValue         = null;
@@ -78,6 +80,7 @@ function initJavascript() {
   elem_inputFieldOptimzeSelected    = document.getElementById( name_inputFieldOptimzeSelected    );
   elem_buttonInputFieldUpCustom     = document.getElementById( name_buttonInputFieldUpCustom     );
   elem_buttonInputFieldDownCustom   = document.getElementById( name_buttonInputFieldDownCustom   );
+  elem_checkBoxInputFieldBigCustom  = document.getElementById( name_checkBoxInputFieldBigCustom  );
 
   elem_inputFormulaVarName          = document.getElementById( name_inputFormulaVarName          );
   elem_inputFormulaVarValue         = document.getElementById( name_inputFormulaVarValue         );
@@ -90,11 +93,12 @@ function initJavascript() {
   elem_buttonSave.addEventListener(       "click" , fncButtonSavePress        );
   elem_buttonSaveCalc.addEventListener(   "click" , fncButtonSaveCalcPress    );
   elem_buttonDelete.addEventListener(     "click" , fncButtonDeletePress      );
-  
+
   elem_buttonInputFieldAddCustom.addEventListener(       "click" , fncButtonInputFieldAddCustomPress        );
   elem_buttonInputFieldRemoveCustom.addEventListener(    "click" , fncButtonInputFieldRemoveCustomPress     );
   elem_buttonInputFieldUpCustom.addEventListener(        "click" , fncButtonInputFieldUpCustomPress         );
   elem_buttonInputFieldDownCustom.addEventListener(      "click" , fncButtonInputFieldDownCustomPress       );
+  elem_checkBoxInputFieldBigCustom.addEventListener(     "change", fncCheckBoxInputFieldBigCustomPress      );
 
   elem_buttonSelectVariableAdd.addEventListener(         "click" , fncButtonSelectVariableAddPress          );
   elem_buttonSelectVariableRemove.addEventListener(      "click" , fncButtonSelectVariableRemovePress       );
@@ -105,27 +109,28 @@ function initJavascript() {
   fieldInputArray.push( elem_inputFieldFormula );
   fieldInputArray.push( elem_buttonSave        );
   fieldInputArray.push( elem_buttonSaveCalc    );
-  fieldInputArray.push( elem_buttonDelete      ); 
-  
-  fieldInputArray.push( elem_inputFieldCalcType           ); 
-  fieldInputArray.push( elem_inputFormulaCalc             ); 
-  fieldInputArray.push( elem_inputFormulaReplace          ); 
-  fieldInputArray.push( elem_inputFieldOptimzeCustom      ); 
-  fieldInputArray.push( elem_buttonInputFieldAddCustom    ); 
-  fieldInputArray.push( elem_buttonInputFieldRemoveCustom ); 
-  fieldInputArray.push( elem_inputFieldOptimzeSelected    ); 
-  fieldInputArray.push( elem_buttonInputFieldUpCustom     ); 
-  fieldInputArray.push( elem_buttonInputFieldDownCustom   ); 
+  fieldInputArray.push( elem_buttonDelete      );
+
+  fieldInputArray.push( elem_inputFieldCalcType           );
+  fieldInputArray.push( elem_inputFormulaCalc             );
+  fieldInputArray.push( elem_inputFormulaReplace          );
+  fieldInputArray.push( elem_inputFieldOptimzeCustom      );
+  fieldInputArray.push( elem_buttonInputFieldAddCustom    );
+  fieldInputArray.push( elem_buttonInputFieldRemoveCustom );
+  fieldInputArray.push( elem_inputFieldOptimzeSelected    );
+  fieldInputArray.push( elem_buttonInputFieldUpCustom     );
+  fieldInputArray.push( elem_buttonInputFieldDownCustom   );
+  fieldInputArray.push( elem_checkBoxInputFieldBigCustom  );
 
   fieldInputArray.push( elem_inputFormulaVarName          );
   fieldInputArray.push( elem_inputFormulaVarValue         );
   fieldInputArray.push( elem_buttonSelectVariableAdd      );
   fieldInputArray.push( elem_buttonSelectVariableRemove   );
   fieldInputArray.push( elem_selectVariable               );
-  
-  
+
+
   fieldInputDisable( false ); // default all fields enabled
-  
+
   // init screen fields
   fncSelectMathFormulaChange();
 }
@@ -133,7 +138,7 @@ function initJavascript() {
 //
 // enable/disable the input fields
 // true  = disable
-// false = enable 
+// false = enable
 //
 function fieldInputDisable( state ) {
   for ( iCount = 0; iCount < fieldInputArray.length; iCount++) {
@@ -162,10 +167,10 @@ function fncSelectValue( selectElem, key ) {
 function fncSelectMakeEmpty( selectElem ) {
    var iCount;
    var elemLength = selectElem.options.length - 1;
-   
+
    for(iCount = elemLength; iCount >= 0; iCount--) {
       selectElem.remove(iCount);
-   }   
+   }
 }
 
 //
@@ -174,7 +179,7 @@ function fncSelectMakeEmpty( selectElem ) {
 function fncFieldsUpdate( dataJson ) {
    if ( 'name'  in dataJson ) {
       elem_inputFieldCode.value = dataJson.name;
-      
+
       // update select if name if not the current (is does not exist in the list)
       var currentValue = elem_selectMathFormula.value;
       if ( currentValue != dataJson.name ) {
@@ -183,23 +188,23 @@ function fncFieldsUpdate( dataJson ) {
         elem_selectMathFormula.add( option );
         elem_selectMathFormula.value = dataJson.name;
       }
-      
+
    } else {
       elem_inputFieldCode.value = "";
-   }      
-   
+   }
+
    if ( 'formula'  in dataJson ) {
       elem_inputFieldFormula.value  = dataJson.formula;
    } else {
       elem_inputFieldFormula.value  = "";
    }
-   
+
    if ( 'htmlDisplay'  in dataJson ) {
       elem_iframeDisplayFormula.src = "data:text/html;charset=utf-8," + escape(dataJson.htmlDisplay);
    } else {
       elem_iframeDisplayFormula.src = "data:text/html;charset=utf-8," + '<!doctype html><html><body></body></html>';
    }
-   
+
    if ( 'optimizeType'  in dataJson ) {
       elem_inputFieldCalcType.value  = dataJson.optimizeType;
    } else {
@@ -226,26 +231,26 @@ function fncFieldsUpdate( dataJson ) {
       var iCount ;
       for( iCount = 0; iCount < lenArr; iCount++ ) {
          var curElem = dataJson.optimizeList[ iCount ];
-         
+
          if ( fncSelectValue( elem_inputFieldOptimzeCustom, curElem) == true ) {
             fncButtonInputFieldAddCustomPress();
          }
       }
    }
    elem_inputFieldOptimzeCustom.selectedIndex = orgSelectIndex;
-   
-   
+
+
    fncSelectMakeEmpty( elem_selectVariable );
    if ( 'varList'  in dataJson ) {
       for( key in dataJson.varList ) {
         elem_inputFormulaVarName.value  = key ;
         elem_inputFormulaVarValue.value = dataJson.varList[ key ] ;
         fncButtonSelectVariableAddPress();
-      }         
+      }
    }
    elem_inputFormulaVarName.value  = "" ;
    elem_inputFormulaVarValue.value = "" ;
-   
+
 }
 
 //
@@ -264,13 +269,13 @@ function fncFieldGet() {
    for ( iCount = 0; iCount < elem_inputFieldOptimzeSelected.length; iCount++ ) {
      data.optimizeList.push( elem_inputFieldOptimzeSelected.options[ iCount ].value );
    }
-   
+
    for ( iCount = 0; iCount < elem_selectVariable.length; iCount++ ) {
      option = elem_selectVariable.options[ iCount ] ;
-     
+
      data.varList[ option.value ] = option.varValue;
    }
-   
+
    return data;
 }
 
@@ -280,23 +285,23 @@ function fncFieldGet() {
 async function asyncDownloadInputData(key) {
   try {
      fieldInputDisable( true );
-     
+
      if (key == null || key == "" ) {
         fncFieldsUpdate( {} );
         return;
      }
-     
+
      url = '?prog=formulaJsonData&key=' + key ;
-     
+
      config = {
         method: 'GET',
         headers: {
             'Accept'      : 'application/json',
             'Content-Type': 'application/json',
         }
-     }     
+     }
      response = await fetch( url, config );
-     
+
      if (!response.ok) {
         alert( 'Error load data response: ' + response.status );
      } else {
@@ -320,12 +325,12 @@ async function asyncDownloadInputData(key) {
 async function asyncSaveInputData( options = "" ) {
   try {
      fieldInputDisable( true );
-     
+
      url = '?prog=formulaJsonSave&options=' + options  ;
-     
+
      data       = fncFieldGet();
-     dataString = JSON.stringify(data); 
-     
+     dataString = JSON.stringify(data);
+
      config = {
         method: 'POST',
         headers: {
@@ -333,9 +338,9 @@ async function asyncSaveInputData( options = "" ) {
             'Content-Type': 'application/json',
         },
         body: dataString
-     }     
+     }
      response = await fetch( url, config );
-     
+
      if (!response.ok) {
         dataJson = await response.json();
         dataString = dataJson[ 'error' ];
@@ -360,18 +365,18 @@ async function asyncSaveInputData( options = "" ) {
 async function asyncDeleteInputData(key) {
   try {
      fieldInputDisable( true );
-     
+
      url = '?prog=formulaJsonDelete&key=' + key ;
-     
+
      config = {
         method: 'DELETE',
         headers: {
             'Accept'      : 'application/json',
             'Content-Type': 'application/json',
         }
-     }     
+     }
      response = await fetch( url, config );
-     
+
      if (!response.ok) {
         alert( 'Error verwijderen data response: ' + response.status );
      } else {
@@ -400,7 +405,7 @@ function fncSelectMathFormulaChange() {
 
 function fncButtonSavePress() {
    asyncSaveInputData();
-   
+
 }
 
 function fncButtonSaveCalcPress() {
@@ -420,25 +425,25 @@ function fncButtonInputFieldAddCustomPress() {
      return
   }
   selectOption = elem_inputFieldOptimzeCustom.options[ elem_inputFieldOptimzeCustom.selectedIndex ] ;
- 
+
    var option = document.createElement("option");
    option.text  = selectOption.text  ;
    option.value = selectOption.value ;
    option.title = selectOption.title ;
-   
+
    elem_inputFieldOptimzeSelected.add( option );
-   
+
    elem_inputFieldOptimzeSelected.selectedIndex = elem_inputFieldOptimzeSelected.length - 1 ;
 }
 
 function fncButtonInputFieldRemoveCustomPress () {
-   
+
    if ( elem_inputFieldOptimzeSelected.selectedIndex < 0 ) {
       return;
    }
    var curIndex = elem_inputFieldOptimzeSelected.selectedIndex;
    elem_inputFieldOptimzeSelected.remove( curIndex ) ;
-   
+
    if ( curIndex >= elem_inputFieldOptimzeSelected.length ) {
       curIndex = elem_inputFieldOptimzeSelected.length - 1 ;
    }
@@ -453,7 +458,7 @@ function fncButtonInputFieldUpCustomPress() {
    var curIndex = elem_inputFieldOptimzeSelected.selectedIndex ;
    var OptUp    = elem_inputFieldOptimzeSelected[ curIndex - 1 ];
    var OptDown  = elem_inputFieldOptimzeSelected[ curIndex     ];
-   
+
    var optSave = {};
    optSave.text  = OptUp.text  ;
    optSave.value = OptUp.value ;
@@ -466,7 +471,7 @@ function fncButtonInputFieldUpCustomPress() {
    OptDown.text  = optSave.text  ;
    OptDown.value = optSave.value ;
    OptDown.title = optSave.title ;
-   
+
    elem_inputFieldOptimzeSelected.selectedIndex = curIndex - 1;
 }
 
@@ -480,7 +485,7 @@ function fncButtonInputFieldDownCustomPress() {
    }
    var OptUp   = elem_inputFieldOptimzeSelected[ curIndex     ];
    var OptDown = elem_inputFieldOptimzeSelected[ curIndex + 1 ];
-   
+
    var optSave = {};
    optSave.text  = OptUp.text  ;
    optSave.value = OptUp.value ;
@@ -493,24 +498,24 @@ function fncButtonInputFieldDownCustomPress() {
    OptDown.text  = optSave.text  ;
    OptDown.value = optSave.value ;
    OptDown.title = optSave.title ;
-   
+
    elem_inputFieldOptimzeSelected.selectedIndex = curIndex + 1;
 }
 
 function fncButtonSelectVariableAddPress() {
    varName  = elem_inputFormulaVarName.value ;
-   varValue = elem_inputFormulaVarValue.value; 
-   
+   varValue = elem_inputFormulaVarValue.value;
+
    varName  = varName.trim();
    varValue = varValue.trim();
-   
+
    if (varName == '' ) {
       return;
    }
    if (varValue == '' ) {
       return;
    }
-   
+
    var option    = null ;
    var addOption = false;
    for ( iCount = 0; iCount < elem_selectVariable.length; iCount++ ) {
@@ -551,20 +556,63 @@ window.onclick = function(event) {
       }
     }
   }
-} 
+}
 
 function fncButtonSelectVariableRemovePress() {
    if (elem_selectVariable.selectedIndex < 0 ) {
       return
    }
    option = elem_selectVariable[ elem_selectVariable.selectedIndex ];
-   
+
    elem_inputFormulaVarName.value  = option.value    ;
    elem_inputFormulaVarValue.value = option.varValue ;
-   
-   elem_selectVariable.remove( elem_selectVariable.selectedIndex ); 
+
+   elem_selectVariable.remove( elem_selectVariable.selectedIndex );
 }
 
 function fncAddText( textToAdd ) {
    elem_inputFieldFormula.value += ' ' + textToAdd;
+}
+
+
+// https://stackoverflow.com/questions/3922139/add-css-to-head-with-javascript
+function addCssToDocument(css){
+  var style = document.createElement('style')
+  style.innerText = css
+  document.head.appendChild(style)
+
+  return style;
+}
+
+var rememberStyle = [];
+
+function fncCheckBoxInputFieldBigCustomPress() {
+  if (elem_checkBoxInputFieldBigCustom.checked == true) {
+    if (rememberStyle.length == 0) {
+      rememberStyle.push( addCssToDocument( '.optBigSelectActionHide { display: None;}' ));
+      rememberStyle.push( addCssToDocument( '.inputForm { height: 100%; }'              ));
+      rememberStyle.push( addCssToDocument( '.inputIFrame { display: None;}'            ));
+
+      var divInputForm = document.getElementsByClassName("inputForm")[ 0 ];
+      var widthDiv     = divInputForm.clientWidth  ;
+      var heigthDiv    = divInputForm.clientHeight ;
+      var buttonWidth  = elem_buttonInputFieldUpCustom.clientWidth;
+      var cssStyle     = '';
+
+      cssStyle += '.widthSelectOptimzeCustom {'
+      cssStyle += ' width: '  + Math.round((widthDiv - buttonWidth * 4 ) / 2 ).toString() + 'px;' ;
+      cssStyle += ' height: ' + Math.round(heigthDiv * 2 / 3                 ).toString() + 'px;' ;
+      cssStyle += ' }'
+
+      rememberStyle.push( addCssToDocument( cssStyle ));
+
+      elem_inputFieldOptimzeCustom.focus();
+    }
+  } else {
+    for ( iCount = 0; iCount < rememberStyle.length; iCount++ ) {
+      rememberStyle[ iCount ].remove();
+    }
+    rememberStyle = [];
+
+  }
 }

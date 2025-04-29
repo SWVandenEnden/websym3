@@ -191,12 +191,12 @@ class HtmlFormulaClass:
       html.addBody( '<table>' )
       html.addBody( '<tr>' )
 
-      html.addBody( '<td>' )
+      html.addBody( '<td class="optBigSelectActionHide">' )
       html.addBody( '<label>Optimization</label>' )
       html.addBody( '</td>' )
 
       # . optimization type
-      html.addBody( '<td>'  )
+      html.addBody( '<td class="optBigSelectActionHide">'  )
       html.addBody( '<select id="inputFieldCalcType" name="inputFieldCalcType">' )
       arrOptimize = self.dbFormula.getOptimzeTypes()
       for objOptimze in arrOptimize :
@@ -205,7 +205,7 @@ class HtmlFormulaClass:
       html.addBody( '</td>' )
 
       # . add/change variable
-      html.addBody( '<td rowspan="4" class="tdButtonSelectVariable" >' )
+      html.addBody( '<td rowspan="4" class="tdButtonSelectVariable optBigSelectActionHide" >' )
 
       html.addBody( '<button type="button" id="buttonSelectVariableAdd"    >&gt;</button> ' )
       html.addBody( '<br>' )
@@ -214,13 +214,13 @@ class HtmlFormulaClass:
       html.addBody( '</td>' )
 
       # . list of variables
-      html.addBody( '<td rowspan="4">' )
+      html.addBody( '<td rowspan="4" class="optBigSelectActionHide">' )
       html.addBody( '<select id="selectVariable" name="selectVariable" size="4" class="widthSelectOptimzeCustom height100">' )
       html.addBody( '</select>' )
       html.addBody( '</td>' )
 
       # . list of all optimization actions
-      html.addBody( '<td rowspan="4">' )
+      html.addBody( '<td rowspan="4" class=optBigSelectActionExpand">' )
       html.addBody( '<select id="inputFieldOptimzeCustom" name="inputFieldOptimzeCustom" size="4" class="widthSelectOptimzeCustom height100">' )
       arrCustom = self.dbFormula.getOptimzeCustoms()
       for objOptimze in arrCustom :
@@ -236,20 +236,23 @@ class HtmlFormulaClass:
       html.addBody( '</td>' )
 
       # . list of selected optimization actions
-      html.addBody( '<td rowspan="4">' )
+      html.addBody( '<td rowspan="4" class=optBigSelectActionExpand">' )
       html.addBody( '<select id="inputFieldOptimzeSelected" name="inputFieldOptimzeSelected" size="4" class="widthSelectOptimzeCustom height100">' )
       html.addBody( '</select>' )
       html.addBody( '</td>' )
 
       # . button to move selected optimization actions up/down
       html.addBody( '<td rowspan="4" class="tdButtonSelectOptimzeCustom" >' )
+
+      html.addBody('<input type="checkbox" id="checkBoxInputFieldBigCustom" name="inputFormulaBigAction" value="big" title="Make the selection big">' )
+      html.addBody( '<br>' )
       html.addBody( '<button type="button" id="buttonInputFieldUpCustom"    >&uarr;</button> ' )
       html.addBody( '<br>' )
       html.addBody( '<button type="button" id="buttonInputFieldDownCustom" >&darr;</button> ' )
       html.addBody( '</td>' )
 
       html.addBody( '</tr>' )
-      html.addBody( '<tr>'  )
+      html.addBody( '<tr class="optBigSelectActionHide">'  )
 
       # empty
       html.addBody( '<td></td>' )
@@ -265,7 +268,7 @@ class HtmlFormulaClass:
       html.addBody( '</tr>' )
 
       # input variable
-      html.addBody( '<tr>'  )
+      html.addBody( '<tr class="optBigSelectActionHide">'  )
 
       html.addBody( '<td>' )
       html.addBody('<label for="inputFormulaVarName">Variable</label>' )
@@ -278,7 +281,7 @@ class HtmlFormulaClass:
       html.addBody( '</tr>' )
 
       # input value (of variable)
-      html.addBody( '<tr>'  )
+      html.addBody( '<tr class="optBigSelectActionHide">'  )
 
       html.addBody( '<td>' )
       html.addBody('<label for="inputFormulaVarValue">Value</label>' )
@@ -295,7 +298,7 @@ class HtmlFormulaClass:
       html.addBody( '</div>' ) # inputFormulaOptions
 
       # footer buttons, save, calculate and delete
-      html.addBody( '<div class="inputFormulaFooter">' )
+      html.addBody( '<div class="inputFormulaFooter optBigSelectActionHide">' )
       html.addBody( '<button type="button" id="buttonSave" class="buttonVericalCenter">Save</button> ' )
       html.addBody( '<button type="button" id="buttonSaveCalc" class="buttonVericalCenter">Calculate</button> ' )
       html.addBody( '<div class="buttonRight">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>' )  # filler for resize div
