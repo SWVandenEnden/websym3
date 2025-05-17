@@ -12,11 +12,11 @@ The start html output of WebSymExpress3
 import os
 import sys
 
+from html import escape
+
 import symexpress3
 import cubicequation
 import quarticequation
-
-from html import escape
 
 from websymexpress3.webcgi   import cgiClass       # https://stackoverflow.com/questions/275174/how-do-i-perform-html-decoding-encoding-using-python-django
 from websymexpress3          import settingsClass

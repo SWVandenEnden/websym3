@@ -33,6 +33,8 @@ import configparser
 
 from pathlib import Path
 
+import mpmath
+
 import websymexpress3
 
 # ---------- Version information ---------------
@@ -71,6 +73,7 @@ def DisplayHelp():
   print( "  -u <url>         : Automatic open url" )
   print( "  -a <True/False>  : Enable/disable automatic open url" )
   print( "  -c <filename>    : Configuration file" )
+  print( "  -dps <number>    : Calculation precision" )
   print( " " )
   print( "Example: " )
   print( 'python websym3 -p 9090' )
@@ -91,6 +94,9 @@ def DisplayHelp():
   print( "url=<url>                # Automatic open url, default http://localhost:{port}/math/index.html" )
   print( "autoopenurl=<True/False> # Enable or disable automatic start url, default True" )
   print( " " )
+  print( "[Calculation]" )
+  print( "precision=<number>       # The number of decimals for calculations, the default is 20")
+  print( " " )
 
 
 # https://docs.python.org/3/library/configparser.html
@@ -98,6 +104,8 @@ def ReadConfiguration( argv = None ):
   """
   Read the configuration file and set the defaults
   """
+  mpmath.mp.dps = 20 # precision for calculations, https://mpmath.org/doc/current/basics.html
+  
   config = configparser.ConfigParser()
 
   dirRoot = os.path.dirname(os.path.realpath(__file__))
@@ -118,6 +126,10 @@ def ReadConfiguration( argv = None ):
   config[ "Start" ]["url"         ] = "http://localhost:{port}/math/index.html"
   config[ "Start" ]["autoopenurl" ] = "True"
   config[ "Start" ]["starturl"    ] = "/math/index.html"  # used in the application to show a link to the start page
+
+  config[ "Calculation" ] = {}
+  config[ "Calculation" ][ "precision" ] = "20"
+
 
   # Process argv
   hashArg = {}
@@ -148,6 +160,10 @@ def ReadConfiguration( argv = None ):
         mode = "inifilename"
         continue
 
+      if cArg == "-dps":
+        mode = "precision"
+        continue
+
       if cArg == "-h":
         DisplayHelp()
         return None
@@ -171,12 +187,16 @@ def ReadConfiguration( argv = None ):
 
   # after init read set the commandline arguments
   # pylint:disable=multiple-statements
-  if "port"        in hashArg: config[ "Server" ][ "port"        ] = hashArg[ "port"        ]
-  if "url"         in hashArg: config[ "Start"  ][ "url"         ] = hashArg[ "url"         ]
-  if "autoopenurl" in hashArg: config[ "Start"  ][ "autoopenurl" ] = hashArg[ "autoopenurl" ]
+  if "port"        in hashArg: config[ "Server"      ][ "port"        ] = hashArg[ "port"        ]
+  if "url"         in hashArg: config[ "Start"       ][ "url"         ] = hashArg[ "url"         ]
+  if "autoopenurl" in hashArg: config[ "Start"       ][ "autoopenurl" ] = hashArg[ "autoopenurl" ]
+  if "precision"   in hashArg: config[ "Calculation" ][ "precision"   ] = hashArg[ "precision"   ]
 
   # with open( configFileName, 'w') as configfile:
   #   config.write(configfile)
+
+  # precision for calculations, https://mpmath.org/doc/current/basics.html
+  mpmath.mp.dps = int( config[ "Calculation" ][ "precision" ] ) 
 
 
   # user/ini-file cannot set this

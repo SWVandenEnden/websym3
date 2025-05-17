@@ -307,25 +307,27 @@ class DbFormulaClass():
       if recFormula.calcValue == True:
         # make all the values numeric
         for keyList, valueList in recFormula.varList.items():
+
           try:
-            numValue = float( valueList )
-            recFormula.varList[ keyList ] = numValue
-          except ValueError:
-            oFrm = None
-            try:
-              oFrm = symexpress3.SymFormulaParser( valueList )
-            except Exception : # as err:
-              # pylint: disable=raise-missing-from
-              raise NameError( f'Field "varList" variable {keyList} is not a number or a formula: "{valueList}"' )
+            checkValue = symexpress3.ConvertToSymexpress3String( valueList )
+          except Exception: # as err:
+            # pylint: disable=raise-missing-from
+            raise NameError( f'Field "varList" variable {keyList} is not a number or a formula: "{valueList}"' )
 
-            # it must be evaluate to a number
-            try:
-              numValue = oFrm.getValue( None )
-            except Exception: # as err:
-              # pylint: disable=raise-missing-from
-              raise NameError( f'Field "varList" variable {keyList} with formula {valueList} do not evaluate to a number' )
+          try:
+            oFrm = symexpress3.SymFormulaParser( checkValue )
+          except Exception: # as err:
+            # pylint: disable=raise-missing-from
+            raise NameError( f'Field "varList" variable {keyList} is not a number or a formula: "{valueList}"' )
 
-            recFormula.varList[ keyList ] = numValue
+          # it must be evaluate to a number
+          try:
+            numValue = oFrm.getValue( None )
+          except Exception: # as err:
+            # pylint: disable=raise-missing-from
+            raise NameError( f'Field "varList" variable {keyList} with formula {valueList} do not evaluate to a number' )
+
+          recFormula.varList[ keyList ] = numValue
 
         output.writeVariables( recFormula.varList )
 
@@ -499,29 +501,20 @@ class DbFormulaClass():
           raise NameError( f'Field "varList" variable name may not contain spaces: "{varName}"')
 
         # check value
-        check = False
+        checkValue = symexpress3.ConvertToSymexpress3String( value )
+
         try:
-          # first check if it is a number
-          numValue = float( value ) # pylint: disable=unused-variable
-          check    = True
-        except ValueError:
-          pass
+          oFrm = symexpress3.SymFormulaParser( checkValue )
+        except Exception: # as err:
+          # pylint: disable=raise-missing-from
+          raise NameError( f'Field "varList" variable {varName} is not a number or a formula: "{value}"' )
 
-        if check == False:
-          # check if it is a formula
-          oFrm = None
-          try:
-            oFrm = symexpress3.SymFormulaParser( value )
-          except Exception: # as err:
-            # pylint: disable=raise-missing-from
-            raise NameError( f'Field "varList" variable {varName} is not a number or a formula: "{value}"' )
-
-          # it must be evalue to a number
-          try:
-            oFrm.getValue( None )
-          except Exception: # as err:
-            # pylint: disable=raise-missing-from
-            raise NameError( f'Field "varList" variable {varName} with formula {value} do not evaluate to a number' )
+        # it must be evaluate to a number
+        try:
+          oFrm.getValue( None )
+        except Exception: # as err:
+          # pylint: disable=raise-missing-from
+          raise NameError( f'Field "varList" variable {varName} with formula {value} do not evaluate to a number' )
 
       optionsJson[ 'varList' ] = recFormula.varList
 

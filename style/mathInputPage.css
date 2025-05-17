@@ -25,6 +25,8 @@
 .widthSelectOptimzeCustom {
    width: 20em;
    height: 8em;
+   
+   transition: width 500ms, height 500ms;
 }
 
 .tdButtonSelectVariable {
@@ -198,7 +200,6 @@ iframe {
 
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {display:block;}
-
 
 /* make the selection of action big */
 /* check box to make it big         */

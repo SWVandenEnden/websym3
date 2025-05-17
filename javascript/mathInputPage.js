@@ -589,7 +589,7 @@ var rememberStyle = [];
 function fncCheckBoxInputFieldBigCustomPress() {
   if (elem_checkBoxInputFieldBigCustom.checked == true) {
     if (rememberStyle.length == 0) {
-      rememberStyle.push( addCssToDocument( '.optBigSelectActionHide { display: None;}' ));
+      rememberStyle.push( addCssToDocument( '.optBigSelectActionHide { display: None; }' ));
       rememberStyle.push( addCssToDocument( '.inputForm { height: 100%; }'              ));
       rememberStyle.push( addCssToDocument( '.inputIFrame { display: None;}'            ));
 
