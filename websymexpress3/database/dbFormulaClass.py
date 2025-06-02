@@ -382,7 +382,11 @@ class DbFormulaClass():
             output.writeLine( str( oFrm ))
 
             if recFormula.calcValue == True:
-              dValue = oFrm.getValue( recFormula.varList )
+              try:
+                dValue = oFrm.getValue( recFormula.varList )
+              except Exception as err: # pylint: disable=broad-exception-caught
+                dValue = str(err)
+
               output.writeLine( f'Calculated: {str( dValue )}' )
 
           output.writeLine( ' ' )
