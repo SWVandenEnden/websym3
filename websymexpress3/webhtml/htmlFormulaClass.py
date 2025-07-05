@@ -178,7 +178,22 @@ class HtmlFormulaClass:
 
       html.addBody( '  </div>' )
       html.addBody( '</div> ' )
+      
+      html.addBody( '<div class="dropdown">' )
+      html.addBody( '  <button onclick="fncOpenDropDownMenu(' + "'menuSpecialFunctions'" + ')" class="dropbtn">Special functions</button>' )
+      html.addBody( '  <div id="menuSpecialFunctions" class="dropdown-content">' )
+      arrVariables = self.dbFormula.getSpecialFunctions()
+      for objOptimze in arrVariables :
+        html.addBody( '<a href="#" onclick="fncAddText(' + "'" + objOptimze[ 'code' ] + "'" + ')">' + escape( objOptimze[ 'description' ] ) + '</a>' )
+
+      html.addBody( '  </div>' )
+      html.addBody( '</div> ' )
+
+      
       html.addBody( '</div>' )
+
+
+      
 
       # input area formula (as text)
       html.addBody( '<div class="inputFormulaContent">' )

@@ -88,6 +88,7 @@ class DbFormulaClass():
     self._arrOptimzeCustom = None
     self._arrVariables     = None
     self._arrFunctions     = None
+    self._arrSpecials      = None
 
   def checkCodeInList( self, arr, code ):
     """
@@ -129,6 +130,21 @@ class DbFormulaClass():
         self.addToArray( self._arrFunctions, value.syntax, value.syntaxExplain )
 
     return self._arrFunctions
+
+  def getSpecialFunctions(self):
+    """
+    Get the all the special functions and give the array back.
+    Array contains objects with 2 fields, "code" and "description"
+    """
+    if self._arrSpecials == None:
+      self._arrSpecials = []
+
+      arrSpec = symexpress3.symtools.GetSpecialFunctions()
+      for key in sorted( arrSpec ) :
+        self.addToArray( self._arrSpecials, key + "()", key + "() - " + arrSpec[ key ] )
+
+    return self._arrSpecials
+
 
   def getVariables(self):
     """
