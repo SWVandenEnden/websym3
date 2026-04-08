@@ -3,7 +3,7 @@
 """
 Html page for maintain and processing table graph
 """
-import sys
+# import sys
 import json
 
 from websymexpress3.webhtml  import htmlClass
