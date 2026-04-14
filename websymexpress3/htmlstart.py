@@ -22,12 +22,14 @@ from websymexpress3.webcgi   import cgiClass       # https://stackoverflow.com/q
 from websymexpress3          import settingsClass
 
 from websymexpress3.database import dbFormulaClass
+from websymexpress3.database import dbTaylorSerieClass
 from websymexpress3.database import dbThirdpowerClass
 from websymexpress3.database import dbFourthpowerClass
 from websymexpress3.database import dbGraphClass
 
 from websymexpress3.webhtml  import htmlClass
 from websymexpress3.webhtml  import htmlFormulaClass
+from websymexpress3.webhtml  import htmlTaylorSerieClass
 from websymexpress3.webhtml  import htmlThirdpowerClass
 from websymexpress3.webhtml  import htmlFourthpowerClass
 from websymexpress3.webhtml  import htmlGraphClass
@@ -43,10 +45,12 @@ def HtmlOutput( httpHandler = None, config = None  ):
   cgi             = cgiClass.CgiClass(             httpHandler )
   settings        = settingsClass.SettingsClass(   config      )
   dbFormula       = dbFormulaClass.DbFormulaClass(             settings )
+  dbTaylorSerie   = dbTaylorSerieClass.DbTaylorSerieClass(     settings )
   dbThirdpower    = dbThirdpowerClass.DbThirdpowerClass(       settings )
   dbFourthpower   = dbFourthpowerClass.DbFourthpowerClass(     settings )
   dbGraph         = dbGraphClass.DbGraphClass(                 settings )
   htmlFormula     = htmlFormulaClass.HtmlFormulaClass(         settings, cgi, dbFormula     )
+  htmlTaylorSerie = htmlTaylorSerieClass.HtmlTaylorSerieClass( settings, cgi, dbTaylorSerie )
   htmlThirdpower  = htmlThirdpowerClass.HtmlThirdpowerClass(   settings, cgi, dbThirdpower  )
   htmlFourthpower = htmlFourthpowerClass.HtmlFourthpowerClass( settings, cgi, dbFourthpower )
   htmlGraph       = htmlGraphClass.HtmlGraphClass(             settings, cgi, dbGraph       )
@@ -54,6 +58,8 @@ def HtmlOutput( httpHandler = None, config = None  ):
   proglist = {}
   proglist[ "mathInput"   ] = {}
   proglist[ "mathInput"   ][ "name" ] = "Math expression"
+  proglist[ "taylorSerie" ] = {}
+  proglist[ "taylorSerie" ][ "name" ] = "Taylor serie"
   proglist[ "thirdPower"  ] = {}
   proglist[ "thirdPower"  ][ "name" ] = "Cubic equation"
   proglist[ "fourthPower" ] = {}
@@ -90,6 +96,11 @@ def HtmlOutput( httpHandler = None, config = None  ):
   elif prog == "thirdpowerJsonData"  : outputPage = htmlThirdpower.jsonDataPage( key )
   elif prog == "thirdpowerJsonSave"  : outputPage = htmlThirdpower.jsonDataSave( options )
   elif prog == "thirdpowerJsonDelete": outputPage = htmlThirdpower.jsonDataDelete( key )
+
+  elif prog == "taylorSerie"          : outputPage = htmlTaylorSerie.htmlPage()
+  elif prog == "taylorSerieJsonData"  : outputPage = htmlTaylorSerie.jsonDataPage( key )
+  elif prog == "taylorSerieJsonSave"  : outputPage = htmlTaylorSerie.jsonDataSave( options )
+  elif prog == "taylorSerieJsonDelete": outputPage = htmlTaylorSerie.jsonDataDelete( key )
 
   elif prog == "fourthPower"          : outputPage = htmlFourthpower.htmlPage()
   elif prog == "fourthpowerJsonData"  : outputPage = htmlFourthpower.jsonDataPage( key )

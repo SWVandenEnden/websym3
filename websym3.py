@@ -52,10 +52,10 @@ __status__      = "Development"
 
 # ---------- Global vars ---------------
 
-GlobalHttpd  = None     # http.server.ThreadingHTTPServer
-GlobalConfig = None     # configparser.ConfigParser
+globalHttpd  = None     # http.server.ThreadingHTTPServer
+globalConfig = None     # configparser.ConfigParser
 
-GlobalDebug  = False
+globalDebug  = False
 
 
 # ---------- Program ---------------
@@ -105,7 +105,7 @@ def ReadConfiguration( argv = None ):
   Read the configuration file and set the defaults
   """
   mpmath.mp.dps = 20 # precision for calculations, https://mpmath.org/doc/current/basics.html
-  
+
   config = configparser.ConfigParser()
 
   dirRoot = os.path.dirname(os.path.realpath(__file__))
@@ -196,7 +196,7 @@ def ReadConfiguration( argv = None ):
   #   config.write(configfile)
 
   # precision for calculations, https://mpmath.org/doc/current/basics.html
-  mpmath.mp.dps = int( config[ "Calculation" ][ "precision" ] ) 
+  mpmath.mp.dps = int( config[ "Calculation" ][ "precision" ] )
 
 
   # user/ini-file cannot set this
@@ -210,7 +210,7 @@ def CheckConfiguration():
   Check if the configuration is valid
   """
   # read settings, it check it self
-  setting = websymexpress3.settingsClass.SettingsClass( GlobalConfig )
+  setting = websymexpress3.settingsClass.SettingsClass( globalConfig )
 
   setting.checkCreateDirs()
 
@@ -232,14 +232,14 @@ class WebSymexpress3RequestHandler(http.server.SimpleHTTPRequestHandler):
   def _request( self ):
     try:
 
-      if GlobalDebug == True:
+      if globalDebug == True:
         print( f"Start request: {self.path}")
 
       urlpath, _, _ = self.path.partition( '?' )
       urlpath = urllib.parse.unquote(urlpath)
 
       if urlpath == '/favicon.ico':
-        dirPath  = GlobalConfig[ "Path" ]["favicon"]
+        dirPath  = globalConfig[ "Path" ]["favicon"]
         ctype    = "image/x-icon"
         filePath = os.path.join( dirPath, "favicon.ico" )
         datatxt  = Path( filePath ).read_bytes()
@@ -279,10 +279,10 @@ class WebSymexpress3RequestHandler(http.server.SimpleHTTPRequestHandler):
           self.send_error( 404, f"Only GET supported for /{arrPath[1]}/{arrPath[2]}" )
           return
 
-        dirPath  = GlobalConfig[ "Path" ][ arrPath[1] ]
+        dirPath  = globalConfig[ "Path" ][ arrPath[1] ]
         filePath = os.path.join( dirPath, arrPath[2] )
 
-        if GlobalDebug == True:
+        if globalDebug == True:
           print( f"Filepath: {filePath}" )
 
         if not os.path.isfile(filePath):
@@ -306,7 +306,7 @@ class WebSymexpress3RequestHandler(http.server.SimpleHTTPRequestHandler):
           self._defaultError()
           return
 
-        websymexpress3.HtmlOutput( self, GlobalConfig )
+        websymexpress3.HtmlOutput( self, globalConfig )
         return
 
       self._defaultError()
@@ -316,7 +316,7 @@ class WebSymexpress3RequestHandler(http.server.SimpleHTTPRequestHandler):
       self.send_error( 500, f"Interal error: {exceptAll}" )
 
     finally:
-      if GlobalDebug == True:
+      if globalDebug == True:
         print( f"End request : {self.path}" )
 
   # pylint:disable=multiple-statements,invalid-name,missing-function-docstring
@@ -331,8 +331,8 @@ class WebSymexpress3RequestHandler(http.server.SimpleHTTPRequestHandler):
 # =================================================
 
 # read settings
-GlobalConfig = ReadConfiguration(sys.argv)
-if GlobalConfig == None:
+globalConfig = ReadConfiguration(sys.argv)
+if globalConfig == None:
   sys.exit()
 
 # check settings
@@ -341,21 +341,21 @@ if CheckConfiguration() != True:
 
 
 # Start http server
-server_address = ('', int( GlobalConfig[ 'Server' ]['port'] ) )
-GlobalHttpd    = http.server.ThreadingHTTPServer(server_address,WebSymexpress3RequestHandler )
+server_address = ('', int( globalConfig[ 'Server' ]['port'] ) )
+globalHttpd    = http.server.ThreadingHTTPServer(server_address,WebSymexpress3RequestHandler )
 
 
 # open start url
-if GlobalConfig[ 'Start' ]['autoopenurl'] in ( 'True', 'true', 'Yes', 'yes', 'T', 't', '1' ):
-  webbrowser.open_new_tab( GlobalConfig[ 'Start' ]['url'].replace( '{port}', GlobalConfig[ 'Server' ]['port'] ) )
+if globalConfig[ 'Start' ]['autoopenurl'] in ( 'True', 'true', 'Yes', 'yes', 'T', 't', '1' ):
+  webbrowser.open_new_tab( globalConfig[ 'Start' ]['url'].replace( '{port}', globalConfig[ 'Server' ]['port'] ) )
 
 
 print( "Command line options: python websym3.py -h ")
-print( f"Starting httpd server port: {GlobalConfig[ 'Server' ]['port']}")
+print( f"Starting httpd server port: {globalConfig[ 'Server' ]['port']}")
 
 # wait for ever (or keyboard interrupt)
 try:
-  GlobalHttpd.serve_forever()
+  globalHttpd.serve_forever()
 except KeyboardInterrupt:
   pass
 

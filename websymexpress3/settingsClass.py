@@ -12,6 +12,7 @@ class SettingsClass():
   def __init__(self , config = None):
     self._config         = config         # configparser.ConfigParser
     self._tblFormula     = "formulas"
+    self._tblTaylorSerie = "taylorserie"
     self._tblThirdpower  = "thirdpower"
     self._tblFourthpower = "fourthpower"
     self._tblGraph       = "graph"
@@ -120,6 +121,18 @@ class SettingsClass():
   @tblFormula.setter
   def tblFormula(self, value):
     self._tblFormula = value
+
+
+  @property
+  def tblTaylorSerie(self):
+    """
+    Physic name of the taylor serie table
+    """
+    return self._tblTaylorSerie
+
+  @tblTaylorSerie.setter
+  def tblTaylorSeroe(self, value):
+    self._tblTaylorSerie = value
 
 
   @property
