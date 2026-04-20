@@ -5,6 +5,7 @@ Database handling for table graph
 """
 import json
 import os
+import math
 
 from pathlib  import Path
 
@@ -311,6 +312,12 @@ class DbGraphClass():
 
       yValue = oExpress.getValue( dictVars )
 
+      # skip infinity for graphs
+      if math.isinf(yValue):
+        continue
+
+      # print( f"graph yvalue: {yValue}")
+
       oValue = {}
       oValue[ 're' ] = xStart
       oValue[ 'im' ] = 0
@@ -331,10 +338,10 @@ class DbGraphClass():
           oValue[ 'im' ] = 0
 
           if isinstance( numVal, complex ):
-            oValue[ 're' ] = numVal.real
-            oValue[ 'im' ] = numVal.imag
+            oValue[ 're' ] = float( numVal.real )
+            oValue[ 'im' ] = float( numVal.imag )
           else:
-            oValue[ 're' ] = numVal
+            oValue[ 're' ] = float( numVal )
             oValue[ 'im' ] = 0
 
           oData[ 'y' ].append( oValue )
@@ -344,10 +351,10 @@ class DbGraphClass():
         oValue[ 'im' ] = 0
 
         if isinstance( yValue, complex ):
-          oValue[ 're' ] = yValue.real
-          oValue[ 'im' ] = yValue.imag
+          oValue[ 're' ] = float( yValue.real )
+          oValue[ 'im' ] = float( yValue.imag )
         else:
-          oValue[ 're' ] = yValue
+          oValue[ 're' ] = float( yValue )
           oValue[ 'im' ] = 0
 
         oData[ 'y' ].append( oValue )

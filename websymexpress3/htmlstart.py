@@ -17,6 +17,7 @@ from html import escape
 import symexpress3
 import cubicequation
 import quarticequation
+import sym3taylorserie
 
 from websymexpress3.webcgi   import cgiClass       # https://stackoverflow.com/questions/275174/how-do-i-perform-html-decoding-encoding-using-python-django
 from websymexpress3          import settingsClass
@@ -161,6 +162,7 @@ def InfoHtmlPage(cgi, settings):
   html.addBody( '<table>' )
   _addVersion( html, 'websym3'        , settings.version            )
   _addVersion( html, 'symexpress3'    , symexpress3.__version__     )
+  _addVersion( html, 'sym3taylorserie', sym3taylorserie.__version__ )
   _addVersion( html, 'cubicequation'  , cubicequation.__version__   )
   _addVersion( html, 'quarticequation', quarticequation.__version__ )
   html.addBody( '</table>' )
