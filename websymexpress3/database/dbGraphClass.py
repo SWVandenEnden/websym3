@@ -302,6 +302,8 @@ class DbGraphClass():
 
     arrResult = []
 
+    # print( "Start graph")
+
     maxNumber = 3000 # maximum number of points to calculate
     xStart    = recGraph.xFrom - recGraph.varStep
     while xStart < recGraph.xTo and maxNumber > 0:
@@ -311,12 +313,11 @@ class DbGraphClass():
       dictVars[ varName ] = xStart
 
       yValue = oExpress.getValue( dictVars )
+      yValue = complex( yValue )
 
       # skip infinity for graphs
-      if math.isinf(yValue):
+      if math.isinf(yValue.real) or math.isinf(yValue.imag):
         continue
-
-      # print( f"graph yvalue: {yValue}")
 
       oValue = {}
       oValue[ 're' ] = xStart

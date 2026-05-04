@@ -863,7 +863,9 @@ class drawGraph extends drawBase {
      var xGraph = 0;
 
      dPart   = (xFunc - this.graphXStart ) / ( this.graphXEnd - this.graphXStart );
-     xGraph  =  Math.min( this.clsGlobal.iScreenWidth, ( (this.graphXEnd - this.graphXStart) / (this.graphYEnd - this.graphYStart)) * this.clsGlobal.iScreenHeight ) * dPart ;
+     // xGraph  =  Math.min( this.clsGlobal.iScreenWidth, ( (this.graphXEnd - this.graphXStart) / (this.graphYEnd - this.graphYStart)) * this.clsGlobal.iScreenHeight ) * dPart ;
+     // always full screen
+     xGraph  =  this.clsGlobal.iScreenWidth * dPart ;
      xGraph += this.clsGlobal.iScreenX ; // for drawing this module use absolute
 
      return xGraph;
@@ -881,7 +883,9 @@ class drawGraph extends drawBase {
 
      dPart   = (yFunc - this.graphYStart ) / ( this.graphYEnd - this.graphYStart );
      dPart   = 1.0 - dPart;
-     yGraph  =  Math.min( ( (this.graphYEnd - this.graphYStart) / (this.graphXEnd - this.graphXStart)) * this.clsGlobal.iScreenWidth, this.clsGlobal.iScreenHeight ) * dPart;
+     // yGraph  =  Math.min( ( (this.graphYEnd - this.graphYStart) / (this.graphXEnd - this.graphXStart)) * this.clsGlobal.iScreenWidth, this.clsGlobal.iScreenHeight ) * dPart;
+     // always full screen
+     yGraph  =  this.clsGlobal.iScreenHeight * dPart;
      yGraph += this.clsGlobal.iScreenY ; // for drawing this module use absolute
 
      // console.log( "funcYtoGraphY", yFunc, yGraph, dPart, this.clsGlobal.iScreenY, this.clsGlobal.iScreenWidth );
@@ -914,16 +918,20 @@ class drawGraph extends drawBase {
         // console.log( "oStartXY: ", oStartXY );
         // console.log( "oEndXY  : ", oEndXY   );
 
-        this.oLineHor = new drawLine( this.clsGlobal, oStartXY.x, oStartXY.y, oEndXY.x, oEndXY.y, this.graphAxeColor );
-        this.oLineHor.setStrokeWidth( this.graphAxeLineWidth );
-        this.oLineHor.setZIndex( this.graphAxeZIndex );
+        if (oStartXY.y <= this.clsGlobal.iScreenY + this.clsGlobal.iScreenHeight ) {
+          this.oLineHor = new drawLine( this.clsGlobal, oStartXY.x, oStartXY.y, oEndXY.x, oEndXY.y, this.graphAxeColor );
+          this.oLineHor.setStrokeWidth( this.graphAxeLineWidth );
+          this.oLineHor.setZIndex( this.graphAxeZIndex );
+        }
 
         oStartXY = this.funcXYtoGraphXY( 0, this.graphYStart );
         oEndXY   = this.funcXYtoGraphXY( 0, this.graphYEnd   );
 
-        this.oLineVer = new drawLine( this.clsGlobal, oStartXY.x, oStartXY.y, oEndXY.x, oEndXY.y, this.graphAxeColor );
-        this.oLineVer.setStrokeWidth( this.graphAxeLineWidth );
-        this.oLineVer.setZIndex( this.graphAxeZOrder );
+        if (oStartXY.x >= this.clsGlobal.iScreenX) {
+          this.oLineVer = new drawLine( this.clsGlobal, oStartXY.x, oStartXY.y, oEndXY.x, oEndXY.y, this.graphAxeColor );
+          this.oLineVer.setStrokeWidth( this.graphAxeLineWidth );
+          this.oLineVer.setZIndex( this.graphAxeZOrder );
+        }
       }
 
       var oLine = null;
@@ -968,6 +976,13 @@ class drawGraph extends drawBase {
             oStartXY.x -= oSize.width;
           }
 
+          if (oStartXY.x < this.clsGlobal.iScreenX) {
+            oStartXY.x = this.clsGlobal.iScreenX
+          }
+          if (oStartXY.y > this.clsGlobal.iScreenY + this.clsGlobal.iScreenHeight ) {
+            oStartXY.y = this.clsGlobal.iScreenY + this.clsGlobal.iScreenHeight - oSize.height
+          }
+
           oText.setPosition( oStartXY.x, oStartXY.y );
 
           this.oNumHor.push( oText );
@@ -993,6 +1008,8 @@ class drawGraph extends drawBase {
         if (yPos != 0 && this.graphNumberShow == true) {
           cText    =  (Math.round( yPos * 10000 ) / 10000) .toString();
           oStartXY = this.funcXYtoGraphXY( 0, yPos );
+
+
           oText    = new drawText( this.clsGlobal, oStartXY.x, oStartXY.y, [  { text: cText, style: "fill:" + this.graphNumberColor }] );
           oText.setZIndex(   this.graphNumberZIndex   );
           oText.setFontSize( this.graphNumberFontSize );
@@ -1001,6 +1018,10 @@ class drawGraph extends drawBase {
 
           oStartXY.x -= oSize.width + 2 ;
           oStartXY.y += oSize.height / 4 ;
+
+          if (oStartXY.x < this.clsGlobal.iScreenX) {
+            oStartXY.x = this.clsGlobal.iScreenX
+          }
 
           oText.setPosition( oStartXY.x, oStartXY.y );
 
