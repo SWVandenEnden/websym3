@@ -106,6 +106,8 @@ def ReadConfiguration( argv = None ):
   """
   mpmath.mp.dps = 20 # precision for calculations, https://mpmath.org/doc/current/basics.html
 
+  sys.set_int_max_str_digits(0) # no maximum number of digits
+
   config = configparser.ConfigParser()
 
   dirRoot = os.path.dirname(os.path.realpath(__file__))

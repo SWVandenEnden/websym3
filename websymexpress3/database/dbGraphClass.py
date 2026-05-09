@@ -306,14 +306,27 @@ class DbGraphClass():
 
     maxNumber = 3000 # maximum number of points to calculate
     xStart    = recGraph.xFrom - recGraph.varStep
+    iError    = 0
     while xStart < recGraph.xTo and maxNumber > 0:
       maxNumber -= 1
       xStart    += recGraph.varStep
 
       dictVars[ varName ] = xStart
 
-      yValue = oExpress.getValue( dictVars )
-      yValue = complex( yValue )
+      # to prefent incidental pole/infinity errors,
+      try:
+        yValue = oExpress.getValue( dictVars )
+        if not isinstance( yValue, list ):
+          yValue = complex( yValue )
+      except Exception as err: # pylint: disable=broad-exception-caught
+        iError += 1
+        if iError > 1:
+          raise NameError( f'calcGraph error:{ repr( err )}') from err
+
+        # skip incidential calc errors
+        continue
+
+      iError = 0
 
       # skip infinity for graphs
       if math.isinf(yValue.real) or math.isinf(yValue.imag):

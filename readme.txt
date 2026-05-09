@@ -1,4 +1,4 @@
-This project is a web interface of symexpress3, cubicequation and quarticequation
+This project is a web interface for symexpress3, cubicequation, quarticequation and sym3taylorserie
 
 Directories:
 ------------

@@ -33,6 +33,9 @@ port=<number>            # Port number web server, default 8003
 [Start]
 url=<url>                # Automatic open url, default http://localhost:{port}/math/index.html
 autoopenurl=<True/False> # Enable or disable automatic start url, default True
+[Calculation]
+precision=<number>       # The number of decimals for calculations, the default is 20
+
 ```
 
 ### Command line

@@ -439,8 +439,8 @@ class DbFormulaClass():
       raise NameError('Field "name" first character must be a letter')
 
     if recFormula.formula != None:
-      if len( recFormula.formula ) > 24000:
-        raise NameError('Field "formula" may exceed 24000 (24Kb) characters')
+      if len( recFormula.formula ) > 240000:
+        raise NameError('Field "formula" may exceed 240000 (240Kb) characters')
 
       # parse formula to see if it is correct
       oFrm = symexpress3.SymFormulaParser( recFormula.formula )
