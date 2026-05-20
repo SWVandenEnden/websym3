@@ -12,6 +12,7 @@ class SettingsClass():
   def __init__(self , config = None):
     self._config         = config         # configparser.ConfigParser
     self._tblFormula     = "formulas"
+    self._tblResultant   = "resultant"
     self._tblTaylorSerie = "taylorserie"
     self._tblThirdpower  = "thirdpower"
     self._tblFourthpower = "fourthpower"
@@ -124,6 +125,18 @@ class SettingsClass():
 
 
   @property
+  def tblResultant(self):
+    """
+    Physic name of the resultant table
+    """
+    return self._tblResultant
+
+  @tblResultant.setter
+  def tblResultant(self, value):
+    self._tblResultant = value
+
+
+  @property
   def tblTaylorSerie(self):
     """
     Physic name of the taylor serie table
@@ -131,7 +144,7 @@ class SettingsClass():
     return self._tblTaylorSerie
 
   @tblTaylorSerie.setter
-  def tblTaylorSeroe(self, value):
+  def tblTaylorSerie(self, value):
     self._tblTaylorSerie = value
 
 
@@ -201,3 +214,5 @@ class SettingsClass():
     _checkCreateSub( self._dbDir, self._tblThirdpower  )
     _checkCreateSub( self._dbDir, self._tblFourthpower )
     _checkCreateSub( self._dbDir, self._tblGraph       )
+    _checkCreateSub( self._dbDir, self._tblTaylorSerie )
+    _checkCreateSub( self._dbDir, self._tblResultant   )

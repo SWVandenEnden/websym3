@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-The start html output of WebSymExpress3
+The start HTML output of WebSymExpress3
 """
 #
 # https://docs.python.org/3/library/cgi.html
@@ -18,11 +18,13 @@ import symexpress3
 import cubicequation
 import quarticequation
 import sym3taylorserie
+import sym3resultant
 
 from websymexpress3.webcgi   import cgiClass       # https://stackoverflow.com/questions/275174/how-do-i-perform-html-decoding-encoding-using-python-django
 from websymexpress3          import settingsClass
 
 from websymexpress3.database import dbFormulaClass
+from websymexpress3.database import dbResultantClass
 from websymexpress3.database import dbTaylorSerieClass
 from websymexpress3.database import dbThirdpowerClass
 from websymexpress3.database import dbFourthpowerClass
@@ -30,6 +32,7 @@ from websymexpress3.database import dbGraphClass
 
 from websymexpress3.webhtml  import htmlClass
 from websymexpress3.webhtml  import htmlFormulaClass
+from websymexpress3.webhtml  import htmlResultantClass
 from websymexpress3.webhtml  import htmlTaylorSerieClass
 from websymexpress3.webhtml  import htmlThirdpowerClass
 from websymexpress3.webhtml  import htmlFourthpowerClass
@@ -38,7 +41,7 @@ from websymexpress3.webhtml  import htmlGraphClass
 def HtmlOutput( httpHandler = None, config = None  ):
   """
   Main entry point for WebSymExpress3
-  Html output generator. Is called from index.py in the web directory
+  HTML output generator. Is called from ..\\websym3.py WebSymexpress3RequestHandler()  (search for websymexpress3.HtmlOutput)
   """
   # it's always utf-8
   sys.stdout.reconfigure(encoding='utf-8')
@@ -46,11 +49,13 @@ def HtmlOutput( httpHandler = None, config = None  ):
   cgi             = cgiClass.CgiClass(             httpHandler )
   settings        = settingsClass.SettingsClass(   config      )
   dbFormula       = dbFormulaClass.DbFormulaClass(             settings )
+  dbResultant     = dbResultantClass.DbResultantClass(         settings )
   dbTaylorSerie   = dbTaylorSerieClass.DbTaylorSerieClass(     settings )
   dbThirdpower    = dbThirdpowerClass.DbThirdpowerClass(       settings )
   dbFourthpower   = dbFourthpowerClass.DbFourthpowerClass(     settings )
   dbGraph         = dbGraphClass.DbGraphClass(                 settings )
   htmlFormula     = htmlFormulaClass.HtmlFormulaClass(         settings, cgi, dbFormula     )
+  htmlResultant   = htmlResultantClass.HtmlResultantClass(     settings, cgi, dbResultant   )
   htmlTaylorSerie = htmlTaylorSerieClass.HtmlTaylorSerieClass( settings, cgi, dbTaylorSerie )
   htmlThirdpower  = htmlThirdpowerClass.HtmlThirdpowerClass(   settings, cgi, dbThirdpower  )
   htmlFourthpower = htmlFourthpowerClass.HtmlFourthpowerClass( settings, cgi, dbFourthpower )
@@ -65,6 +70,8 @@ def HtmlOutput( httpHandler = None, config = None  ):
   proglist[ "thirdPower"  ][ "name" ] = "Cubic equation"
   proglist[ "fourthPower" ] = {}
   proglist[ "fourthPower" ][ "name" ] = "Quartic equation"
+  proglist[ "resultant"   ] = {}
+  proglist[ "resultant"   ][ "name" ] = "Resultant"
   proglist[ "graph"       ] = {}
   proglist[ "graph"       ][ "name" ] = "Graph"
   proglist[ "infoPage"    ] = {}
@@ -86,41 +93,47 @@ def HtmlOutput( httpHandler = None, config = None  ):
   outputPage = ""
 
   # pylint: disable=multiple-statements
-  if   prog == "infoPage"         : outputPage = InfoHtmlPage(cgi, settings)
+  match prog:
+    case "infoPage"             : outputPage = InfoHtmlPage(cgi, settings)
 
-  elif prog == "mathInput"        : outputPage = htmlFormula.mathInputPage()
-  elif prog == "formulaJsonData"  : outputPage = htmlFormula.jsonDataPage( key )
-  elif prog == "formulaJsonSave"  : outputPage = htmlFormula.jsonDataSave( options )
-  elif prog == "formulaJsonDelete": outputPage = htmlFormula.jsonDataDelete( key )
+    case "mathInput"            : outputPage = htmlFormula.mathInputPage()
+    case "formulaJsonData"      : outputPage = htmlFormula.jsonDataPage(   key     )
+    case "formulaJsonSave"      : outputPage = htmlFormula.jsonDataSave(   options )
+    case "formulaJsonDelete"    : outputPage = htmlFormula.jsonDataDelete( key     )
 
-  elif prog == "thirdPower"          : outputPage = htmlThirdpower.htmlPage()
-  elif prog == "thirdpowerJsonData"  : outputPage = htmlThirdpower.jsonDataPage( key )
-  elif prog == "thirdpowerJsonSave"  : outputPage = htmlThirdpower.jsonDataSave( options )
-  elif prog == "thirdpowerJsonDelete": outputPage = htmlThirdpower.jsonDataDelete( key )
+    case "thirdPower"           : outputPage = htmlThirdpower.htmlPage()
+    case "thirdpowerJsonData"   : outputPage = htmlThirdpower.jsonDataPage(   key     )
+    case "thirdpowerJsonSave"   : outputPage = htmlThirdpower.jsonDataSave(   options )
+    case "thirdpowerJsonDelete" : outputPage = htmlThirdpower.jsonDataDelete( key     )
 
-  elif prog == "taylorSerie"          : outputPage = htmlTaylorSerie.htmlPage()
-  elif prog == "taylorSerieJsonData"  : outputPage = htmlTaylorSerie.jsonDataPage( key )
-  elif prog == "taylorSerieJsonSave"  : outputPage = htmlTaylorSerie.jsonDataSave( options )
-  elif prog == "taylorSerieJsonDelete": outputPage = htmlTaylorSerie.jsonDataDelete( key )
+    case "resultant"            : outputPage = htmlResultant.htmlPage()
+    case "resultantJsonData"    : outputPage = htmlResultant.jsonDataPage(   key     )
+    case "resultantJsonSave"    : outputPage = htmlResultant.jsonDataSave(   options )
+    case "resultantJsonDelete"  : outputPage = htmlResultant.jsonDataDelete( key     )
 
-  elif prog == "fourthPower"          : outputPage = htmlFourthpower.htmlPage()
-  elif prog == "fourthpowerJsonData"  : outputPage = htmlFourthpower.jsonDataPage( key )
-  elif prog == "fourthpowerJsonSave"  : outputPage = htmlFourthpower.jsonDataSave( options )
-  elif prog == "fourthpowerJsonDelete": outputPage = htmlFourthpower.jsonDataDelete( key )
+    case "taylorSerie"          : outputPage = htmlTaylorSerie.htmlPage()
+    case "taylorSerieJsonData"  : outputPage = htmlTaylorSerie.jsonDataPage(   key     )
+    case "taylorSerieJsonSave"  : outputPage = htmlTaylorSerie.jsonDataSave(   options )
+    case "taylorSerieJsonDelete": outputPage = htmlTaylorSerie.jsonDataDelete( key     )
 
-  elif prog == "graph"          : outputPage = htmlGraph.mathGraphPage()
-  elif prog == "graphJsonList"  : outputPage = htmlGraph.jsonDataList()
-  elif prog == "graphJsonData"  : outputPage = htmlGraph.jsonDataPage( key )
-  elif prog == "graphJsonSave"  : outputPage = htmlGraph.jsonDataSave( options )
-  elif prog == "graphJsonDelete": outputPage = htmlGraph.jsonDataDelete( key )
+    case "fourthPower"          : outputPage = htmlFourthpower.htmlPage()
+    case "fourthpowerJsonData"  : outputPage = htmlFourthpower.jsonDataPage(   key     )
+    case "fourthpowerJsonSave"  : outputPage = htmlFourthpower.jsonDataSave(   options )
+    case "fourthpowerJsonDelete": outputPage = htmlFourthpower.jsonDataDelete( key     )
 
-  # exist/stop application
-  elif prog == "exit" :
-    # https://stackoverflow.com/questions/35571440/when-is-keyboardinterrupt-raised-in-python
-    setattr(httpHandler.server, '_BaseServer__shutdown_request', True)
+    case "graph"                : outputPage = htmlGraph.mathGraphPage()
+    case "graphJsonList"        : outputPage = htmlGraph.jsonDataList()
+    case "graphJsonData"        : outputPage = htmlGraph.jsonDataPage(   key     )
+    case "graphJsonSave"        : outputPage = htmlGraph.jsonDataSave(   options )
+    case "graphJsonDelete"      : outputPage = htmlGraph.jsonDataDelete( key     )
 
-  else:
-    outputPage = StartHtmlPage( cgi, proglist, settings )
+    case "exit" :
+      # exist/stop application
+      # https://stackoverflow.com/questions/35571440/when-is-keyboardinterrupt-raised-in-python
+      setattr(httpHandler.server, '_BaseServer__shutdown_request', True)
+
+    case _:
+      outputPage = StartHtmlPage( cgi, proglist, settings )
 
   cgi.writeString( outputPage )
   # return ""
@@ -165,6 +178,7 @@ def InfoHtmlPage(cgi, settings):
   _addVersion( html, 'sym3taylorserie', sym3taylorserie.__version__ )
   _addVersion( html, 'cubicequation'  , cubicequation.__version__   )
   _addVersion( html, 'quarticequation', quarticequation.__version__ )
+  _addVersion( html, 'sym3resultant'  , sym3resultant.__version__   )
   html.addBody( '</table>' )
 
 

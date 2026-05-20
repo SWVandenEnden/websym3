@@ -443,7 +443,8 @@ class DbFormulaClass():
         raise NameError('Field "formula" may exceed 240000 (240Kb) characters')
 
       # parse formula to see if it is correct
-      oFrm = symexpress3.SymFormulaParser( recFormula.formula )
+      # oFrm = symexpress3.SymFormulaParser( recFormula.formula )
+      symexpress3.SymFormulaParser( recFormula.formula )
 
     if recFormula.htmlDisplay != None:
       if len( recFormula.htmlDisplay ) > 2000000: # 2Mb
@@ -524,17 +525,19 @@ class DbFormulaClass():
         checkValue = symexpress3.ConvertToSymexpress3String( value )
 
         try:
-          oFrm = symexpress3.SymFormulaParser( checkValue )
+          # oFrm = symexpress3.SymFormulaParser( checkValue )
+          symexpress3.SymFormulaParser( checkValue )
         except Exception: # as err:
           # pylint: disable=raise-missing-from
           raise NameError( f'Field "varList" variable {varName} is not a number or a formula: "{value}"' )
 
         # it must be evaluate to a number
-        try:
-          oFrm.getValue( None )
-        except Exception: # as err:
-          # pylint: disable=raise-missing-from
-          raise NameError( f'Field "varList" variable {varName} with formula {value} do not evaluate to a number' )
+        # for a replace this is not needed.
+        # try:
+        #   oFrm.getValue( None )
+        # except Exception: # as err:
+        #   # pylint: disable=raise-missing-from
+        #   raise NameError( f'Field "varList" variable {varName} with formula {value} do not evaluate to a number' )
 
       optionsJson[ 'varList' ] = recFormula.varList
 

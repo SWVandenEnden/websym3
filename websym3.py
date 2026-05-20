@@ -38,7 +38,7 @@ import mpmath
 import websymexpress3
 
 # ---------- Version information ---------------
-__version__     = "0.0.7"
+__version__     = "0.0.8"
 
 __author__      = "Gien van den Enden"
 __copyright__   = "Copyright 2024, Gien van den Enden"

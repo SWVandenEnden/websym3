@@ -18,7 +18,7 @@ import sym3taylorserie
 #
 class RecordTaylorSerie: # pylint: disable=too-few-public-methods
   """
-  Data record for table third power
+  Data record for table taylor serie
   """
   def __init__(self):
     self.name             = ""    # name of the formula
@@ -80,8 +80,8 @@ class DbTaylorSerieClass():
 
   def listTaylorSeries(self):
     """
-    Get a list of all the third powers in the database.
-    It give a list of third power codes back.
+    Get a list of all the taylor series in the database.
+    It give a list of taylor series codes back.
     """
     dirList = os.listdir( self._tblTaylorSerie )
     dirList.sort()
@@ -145,7 +145,7 @@ class DbTaylorSerieClass():
 
   def deleteTaylorSerieDetails( self, key ):
     """
-    Delete the given third power from the database
+    Delete the given taylor serie from the database
     """
     key.strip()
     if key.isprintable() != True :
@@ -179,8 +179,8 @@ class DbTaylorSerieClass():
 
   def calcTaylorSerieDetails( self, key ):
     """
-    Process the data from the given third power code and put it back in the database.
-    It create the html file for the third power.
+    Process the data from the given taylor serie code and put it back in the database.
+    It create the html file for the taylor serie.
     """
     recTaylorSerie = self.getTaylorSerieDetails( key )
 
