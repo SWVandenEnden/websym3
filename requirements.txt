@@ -1,8 +1,9 @@
 # https://pip.pypa.io/en/stable/reference/requirements-file-format/
 # https://pip.pypa.io/en/stable/topics/vcs-support/
 
-symexpress3 >= 0.0.13
+symexpress3 >= 0.0.15
 cubicequation >= 0.0.3
 quarticequation >= 0.0.3
 sym3taylorserie >= 0.0.1
 sym3resultant >= 0.0.1
+sym3tschirnhaus >= 0.0.1

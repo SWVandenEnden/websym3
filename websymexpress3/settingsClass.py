@@ -11,7 +11,8 @@ class SettingsClass():
   """
   def __init__(self , config = None):
     self._config         = config         # configparser.ConfigParser
-    self._tblFormula     = "formulas"
+    self._tblFormula     = "formulas"     # see checkCreateDirs()
+    self._tblTschirnhaus = "tschirnhaus"
     self._tblResultant   = "resultant"
     self._tblTaylorSerie = "taylorserie"
     self._tblThirdpower  = "thirdpower"
@@ -137,6 +138,18 @@ class SettingsClass():
 
 
   @property
+  def tblTschirnhaus(self):
+    """
+    Physic name of the tschirnhaus table
+    """
+    return self._tblTschirnhaus
+
+  @tblTschirnhaus.setter
+  def tblTschirnhaus(self, value):
+    self._tblTschirnhaus = value
+
+
+  @property
   def tblTaylorSerie(self):
     """
     Physic name of the taylor serie table
@@ -216,3 +229,4 @@ class SettingsClass():
     _checkCreateSub( self._dbDir, self._tblGraph       )
     _checkCreateSub( self._dbDir, self._tblTaylorSerie )
     _checkCreateSub( self._dbDir, self._tblResultant   )
+    _checkCreateSub( self._dbDir, self._tblTschirnhaus )

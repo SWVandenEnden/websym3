@@ -19,6 +19,7 @@ import cubicequation
 import quarticequation
 import sym3taylorserie
 import sym3resultant
+import sym3tschirnhaus
 
 from websymexpress3.webcgi   import cgiClass       # https://stackoverflow.com/questions/275174/how-do-i-perform-html-decoding-encoding-using-python-django
 from websymexpress3          import settingsClass
@@ -28,6 +29,7 @@ from websymexpress3.database import dbResultantClass
 from websymexpress3.database import dbTaylorSerieClass
 from websymexpress3.database import dbThirdpowerClass
 from websymexpress3.database import dbFourthpowerClass
+from websymexpress3.database import dbTschirnhausClass
 from websymexpress3.database import dbGraphClass
 
 from websymexpress3.webhtml  import htmlClass
@@ -36,6 +38,7 @@ from websymexpress3.webhtml  import htmlResultantClass
 from websymexpress3.webhtml  import htmlTaylorSerieClass
 from websymexpress3.webhtml  import htmlThirdpowerClass
 from websymexpress3.webhtml  import htmlFourthpowerClass
+from websymexpress3.webhtml  import htmlTschirnhausClass
 from websymexpress3.webhtml  import htmlGraphClass
 
 def HtmlOutput( httpHandler = None, config = None  ):
@@ -53,12 +56,14 @@ def HtmlOutput( httpHandler = None, config = None  ):
   dbTaylorSerie   = dbTaylorSerieClass.DbTaylorSerieClass(     settings )
   dbThirdpower    = dbThirdpowerClass.DbThirdpowerClass(       settings )
   dbFourthpower   = dbFourthpowerClass.DbFourthpowerClass(     settings )
+  dbTschirnhaus   = dbTschirnhausClass.DbTschirnhausClass(     settings )
   dbGraph         = dbGraphClass.DbGraphClass(                 settings )
   htmlFormula     = htmlFormulaClass.HtmlFormulaClass(         settings, cgi, dbFormula     )
   htmlResultant   = htmlResultantClass.HtmlResultantClass(     settings, cgi, dbResultant   )
   htmlTaylorSerie = htmlTaylorSerieClass.HtmlTaylorSerieClass( settings, cgi, dbTaylorSerie )
   htmlThirdpower  = htmlThirdpowerClass.HtmlThirdpowerClass(   settings, cgi, dbThirdpower  )
   htmlFourthpower = htmlFourthpowerClass.HtmlFourthpowerClass( settings, cgi, dbFourthpower )
+  htmlTschirnhaus = htmlTschirnhausClass.HtmlTschirnhausClass( settings, cgi, dbTschirnhaus )
   htmlGraph       = htmlGraphClass.HtmlGraphClass(             settings, cgi, dbGraph       )
 
   proglist = {}
@@ -72,6 +77,8 @@ def HtmlOutput( httpHandler = None, config = None  ):
   proglist[ "fourthPower" ][ "name" ] = "Quartic equation"
   proglist[ "resultant"   ] = {}
   proglist[ "resultant"   ][ "name" ] = "Resultant"
+  proglist[ "tschirnhaus" ] = {}
+  proglist[ "tschirnhaus" ][ "name" ] = "Tschirnhaus transformation"
   proglist[ "graph"       ] = {}
   proglist[ "graph"       ][ "name" ] = "Graph"
   proglist[ "infoPage"    ] = {}
@@ -120,6 +127,11 @@ def HtmlOutput( httpHandler = None, config = None  ):
     case "fourthpowerJsonData"  : outputPage = htmlFourthpower.jsonDataPage(   key     )
     case "fourthpowerJsonSave"  : outputPage = htmlFourthpower.jsonDataSave(   options )
     case "fourthpowerJsonDelete": outputPage = htmlFourthpower.jsonDataDelete( key     )
+
+    case "tschirnhaus"          : outputPage = htmlTschirnhaus.htmlPage()
+    case "tschirnhausJsonData"  : outputPage = htmlTschirnhaus.jsonDataPage(   key     )
+    case "tschirnhausJsonSave"  : outputPage = htmlTschirnhaus.jsonDataSave(   options )
+    case "tschirnhausJsonDelete": outputPage = htmlTschirnhaus.jsonDataDelete( key     )
 
     case "graph"                : outputPage = htmlGraph.mathGraphPage()
     case "graphJsonList"        : outputPage = htmlGraph.jsonDataList()
