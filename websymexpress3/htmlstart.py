@@ -187,10 +187,12 @@ def InfoHtmlPage(cgi, settings):
   html.addBody( '<table>' )
   _addVersion( html, 'websym3'        , settings.version            )
   _addVersion( html, 'symexpress3'    , symexpress3.__version__     )
-  _addVersion( html, 'sym3taylorserie', sym3taylorserie.__version__ )
   _addVersion( html, 'cubicequation'  , cubicequation.__version__   )
   _addVersion( html, 'quarticequation', quarticequation.__version__ )
+  _addVersion( html, 'sym3taylorserie', sym3taylorserie.__version__ )
   _addVersion( html, 'sym3resultant'  , sym3resultant.__version__   )
+  _addVersion( html, 'sym3tschirnhaus', sym3tschirnhaus.__version__ )
+
   html.addBody( '</table>' )
 
 

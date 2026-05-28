@@ -27,6 +27,7 @@ class RecordFormula:  # pylint: disable=too-few-public-methods
     self.optimizeType     = ""    # the optimize type
     self.calcValue        = False # Calc the real value of the formula
     self.replaceValue     = False # Replace the variables
+    self.answerOnly       = False # Only display the answer, no interim values
     self.optimizeList     = []    # Array of optimize actions for optimizeType OptimizeCustom
     self.varList          = {}    # Dictionary of variable
 
@@ -52,6 +53,9 @@ class RecordFormula:  # pylint: disable=too-few-public-methods
 
     if self.replaceValue != None and isinstance( self.replaceValue, bool ) != True:
       raise NameError( f'Field "replaceValue" is not of type boolean ({type(self.replaceValue)})' )
+
+    if self.answerOnly != None and isinstance( self.answerOnly, bool ) != True:
+      raise NameError( f'Field "answerOnly" is not of type boolean ({type(self.answerOnly)})' )
 
     if self.optimizeList != None :
       if isinstance( self.optimizeList, list ) != True:
@@ -252,6 +256,9 @@ class DbFormulaClass():
       if 'replaceValue' not in optionsJson:
         optionsJson[ 'replaceValue' ] = False
 
+      if 'answerOnly' not in optionsJson:
+        optionsJson[ 'answerOnly' ] = False
+
       if 'optimizeList' not in optionsJson:
         optionsJson[ 'optimizeList' ] = []
 
@@ -261,6 +268,7 @@ class DbFormulaClass():
       recFormula.optimizeType = optionsJson[ 'optimizeType' ]
       recFormula.calcValue    = optionsJson[ 'calcValue'    ]
       recFormula.replaceValue = optionsJson[ 'replaceValue' ]
+      recFormula.answerOnly   = optionsJson[ 'answerOnly'   ]
       recFormula.optimizeList = optionsJson[ 'optimizeList' ]
       recFormula.varList      = optionsJson[ 'varList'      ]
 
@@ -306,6 +314,7 @@ class DbFormulaClass():
     dirName    = self.getDirName( recFormula.name )
     fileName   = dirName + "formula.html"
     output     = symexpress3.SymToHtml( fileName, recFormula.name )
+    outputVal  = output
 
     try:
       curDateTime = datetime.today().strftime('%Y-%m-%d %H:%M:%S')
@@ -319,6 +328,9 @@ class DbFormulaClass():
 
       if recFormula.replaceValue == True:
         dictVars = recFormula.varList.copy()
+
+      if recFormula.answerOnly == True:
+        outputVal = None
 
       if recFormula.calcValue == True:
         # make all the values numeric
@@ -363,13 +375,13 @@ class DbFormulaClass():
         extraOptions.append( 'calculation' )
 
       if recFormula.optimizeType == 'OptimizeNormal':
-        oFrm.optimizeNormal( output, None, extraOptions, recFormula.varList )
+        oFrm.optimizeNormal( outputVal, None, extraOptions, recFormula.varList )
 
       if recFormula.optimizeType == 'OptimizeExtended':
-        oFrm.optimizeExtended( output, None, extraOptions, recFormula.varList )
+        oFrm.optimizeExtended( outputVal, None, extraOptions, recFormula.varList )
 
       elif recFormula.optimizeType == 'OptimizeNone':
-        if recFormula.calcValue == True:
+        if recFormula.calcValue == True and recFormula.answerOnly == False:
           dValue = oFrm.getValue( recFormula.varList )
           output.writeLine( f'Calculated: {str( dValue )}' )
 
@@ -377,39 +389,59 @@ class DbFormulaClass():
         output.writeLine( ' ' )
         for cAction in recFormula.optimizeList:
           if cAction == 'optimizeNormal':
-            oFrm.optimizeNormal( output, None, extraOptions, recFormula.varList )
+            oFrm.optimizeNormal( outputVal, None, extraOptions, recFormula.varList )
 
           elif cAction == 'optimizeExtended' :
-            oFrm.optimizeExtended( output, None, extraOptions, recFormula.varList )
+            oFrm.optimizeExtended( outputVal, None, extraOptions, recFormula.varList )
 
           elif cAction == 'none':
-            output.writeLine( f'Action: {cAction}' )
+            if recFormula.answerOnly == False:
+              output.writeLine( f'Action: {cAction}' )
             oFrm.optimize( None )
-            output.writeSymExpress( oFrm )
-            output.writeLine( str( oFrm ))
+            if recFormula.answerOnly == False:
+              output.writeSymExpress( oFrm )
+              output.writeLine( str( oFrm ))
 
-            if recFormula.calcValue == True:
+            if recFormula.calcValue == True and recFormula.answerOnly == False:
               dValue = oFrm.getValue( recFormula.varList )
               output.writeLine( f'Calculated: {str( dValue )}' )
           else:
-            output.writeLine( f'Action: {cAction}' )
+            if recFormula.answerOnly == False:
+              output.writeLine( f'Action: {cAction}' )
             oFrm.optimize( cAction )
-            output.writeSymExpress( oFrm )
-            output.writeLine( str( oFrm ))
+            if recFormula.answerOnly == False:
+              output.writeSymExpress( oFrm )
+              output.writeLine( str( oFrm ))
 
-            if recFormula.calcValue == True:
+            if recFormula.calcValue == True and recFormula.answerOnly == False:
               try:
                 dValue = oFrm.getValue( recFormula.varList )
               except Exception as err: # pylint: disable=broad-exception-caught
                 dValue = str(err)
 
-              output.writeLine( f'Calculated: {str( dValue )}' )
+              if recFormula.answerOnly == False:
+                output.writeLine( f'Calculated: {str( dValue )}' )
 
-          output.writeLine( ' ' )
+          if recFormula.answerOnly == False:
+            output.writeLine( ' ' )
+
+      if recFormula.answerOnly == True:
+        output.writeLine( 'Answer only' )
+        output.writeSymExpress( oFrm )
+        output.writeLine( str( oFrm ))
+
+        if recFormula.calcValue == True:
+          try:
+            dValue = oFrm.getValue( recFormula.varList )
+          except Exception as err: # pylint: disable=broad-exception-caught
+            dValue = str(err)
+          output.writeLine( f'Calculated: {str( dValue )}' )
 
     except Exception as err: # pylint: disable=broad-exception-caught
       output.writeLine( ' ' )
       output.writeLine( f'Error: {str(err)}' )
+
+
 
     output.closeFile()
     output = None
@@ -482,6 +514,9 @@ class DbFormulaClass():
     if 'replaceValue' not in optionsJson:
       optionsJson[ 'replaceValue' ] = False
 
+    if 'answerOnly' not in optionsJson:
+      optionsJson[ 'answerOnly' ] = False
+
     if 'optimizeList' not in optionsJson:
       optionsJson[ 'optimizeList' ] = []
 
@@ -500,6 +535,9 @@ class DbFormulaClass():
 
     if recFormula.replaceValue != None:
       optionsJson[ 'replaceValue' ] = recFormula.replaceValue
+
+    if recFormula.answerOnly != None:
+      optionsJson[ 'answerOnly' ] = recFormula.answerOnly
 
     if recFormula.optimizeList != None:
       arrList = self.getOptimzeCustoms()

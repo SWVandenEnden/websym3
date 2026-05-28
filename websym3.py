@@ -30,6 +30,7 @@ import urllib.parse
 import configparser
 # import time
 # import email.utils
+import gc
 
 from pathlib import Path
 
@@ -326,6 +327,11 @@ class WebSymexpress3RequestHandler(http.server.SimpleHTTPRequestHandler):
   def do_POST(  self): self._request()
   def do_PUT(   self): self._request()
   def do_DELETE(self): self._request()
+
+  # cleanup memory
+  # 27 may 2026, for some unknown reason the http server is eating memory. This is slowing it
+  gc.collect()
+
 
 
 # =================================================

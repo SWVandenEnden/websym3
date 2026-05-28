@@ -24,7 +24,7 @@
 
 .widthSelectOptimzeCustom {
    width: 20em;
-   height: 8em;
+   height:10em;
    
    transition: width 500ms, height 500ms;
 }

@@ -15,6 +15,7 @@ var name_iframeDisplayFormula = "iframeDisplayFormula";
 
 var name_inputFieldCalcType           = "inputFieldCalcType"          ;
 var name_inputFormulaCalc             = "inputFormulaCalc"            ;
+var name_inputFormulaAnswerOnly       = "inputFormulaAnswerOnly"      ;
 var name_inputFormulaReplace          = "inputFormulaReplace"         ;
 var name_inputFieldOptimzeCustom      = "inputFieldOptimzeCustom"     ;
 var name_buttonInputFieldAddCustom    = "buttonInputFieldAddCustom"   ;
@@ -41,6 +42,7 @@ var elem_buttonDelete         = null;
 
 var elem_inputFieldCalcType           = null;
 var elem_inputFormulaCalc             = null;
+var elem_inputFormulaAnswerOnly       = null;
 var elem_inputFormulaReplace          = null;
 var elem_inputFieldOptimzeCustom      = null;
 var elem_buttonInputFieldAddCustom    = null;
@@ -73,6 +75,7 @@ function initJavascript() {
 
   elem_inputFieldCalcType           = document.getElementById( name_inputFieldCalcType           );
   elem_inputFormulaCalc             = document.getElementById( name_inputFormulaCalc             );
+  elem_inputFormulaAnswerOnly       = document.getElementById( name_inputFormulaAnswerOnly       );
   elem_inputFormulaReplace          = document.getElementById( name_inputFormulaReplace          );
   elem_inputFieldOptimzeCustom      = document.getElementById( name_inputFieldOptimzeCustom      );
   elem_buttonInputFieldAddCustom    = document.getElementById( name_buttonInputFieldAddCustom    );
@@ -113,6 +116,7 @@ function initJavascript() {
 
   fieldInputArray.push( elem_inputFieldCalcType           );
   fieldInputArray.push( elem_inputFormulaCalc             );
+  fieldInputArray.push( elem_inputFormulaAnswerOnly       );
   fieldInputArray.push( elem_inputFormulaReplace          );
   fieldInputArray.push( elem_inputFieldOptimzeCustom      );
   fieldInputArray.push( elem_buttonInputFieldAddCustom    );
@@ -223,6 +227,11 @@ function fncFieldsUpdate( dataJson ) {
       elem_inputFormulaReplace.checked  = false;
    }
 
+   if ( 'answerOnly'  in dataJson ) {
+      elem_inputFormulaAnswerOnly.checked  = dataJson.answerOnly;
+   } else {
+      elem_inputFormulaAnswerOnly.checked  = false;
+   }
 
    fncSelectMakeEmpty( elem_inputFieldOptimzeSelected )
    var orgSelectIndex = elem_inputFieldOptimzeCustom.selectedIndex ;
@@ -258,11 +267,12 @@ function fncFieldsUpdate( dataJson ) {
 //
 function fncFieldGet() {
    data = {};
-   data.name         = elem_inputFieldCode.value        ;
-   data.formula      = elem_inputFieldFormula.value     ;
-   data.optimizeType = elem_inputFieldCalcType.value    ;
-   data.calcValue    = elem_inputFormulaCalc.checked    ;
-   data.replaceValue = elem_inputFormulaReplace.checked ;
+   data.name         = elem_inputFieldCode.value          ;
+   data.formula      = elem_inputFieldFormula.value       ;
+   data.optimizeType = elem_inputFieldCalcType.value      ;
+   data.calcValue    = elem_inputFormulaCalc.checked      ;
+   data.replaceValue = elem_inputFormulaReplace.checked   ;
+   data.answerOnly   = elem_inputFormulaAnswerOnly.checked;
    data.optimizeList = [] ;
    data.varList      = {} ;
 
@@ -330,6 +340,8 @@ async function asyncSaveInputData( options = "" ) {
 
      data       = fncFieldGet();
      dataString = JSON.stringify(data);
+
+     // window.alert( dataString );
 
      config = {
         method: 'POST',

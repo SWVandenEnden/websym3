@@ -73,6 +73,7 @@ class HtmlFormulaClass:
       dataRecord.optimizeType  = jsonData[ 'optimizeType' ] # the optimize type
       dataRecord.calcValue     = jsonData[ 'calcValue'    ] # Calc the real value of the formula
       dataRecord.replaceValue  = jsonData[ 'replaceValue' ]
+      dataRecord.answerOnly    = jsonData[ 'answerOnly'   ]
       dataRecord.optimizeList  = jsonData[ 'optimizeList' ] # Array of optimze actions for optimizeType OptimizeCustom
       dataRecord.varList       = jsonData[ 'varList'      ] # Dictionary of variables (varname, value)
 
@@ -88,6 +89,7 @@ class HtmlFormulaClass:
         "optimizeType": dataRecord.optimizeType,
         "calcValue"   : dataRecord.calcValue   ,
         "replaceValue": dataRecord.replaceValue,
+        "answerOnly"  : dataRecord.answerOnly  ,
         "optimizeList": dataRecord.optimizeList,
         "varList"     : dataRecord.varList
 
@@ -129,6 +131,7 @@ class HtmlFormulaClass:
       "optimizeType": dataRecord.optimizeType,
       "calcValue"   : dataRecord.calcValue   ,
       "replaceValue": dataRecord.replaceValue,
+      "answerOnly"  : dataRecord.answerOnly  ,
       "optimizeList": dataRecord.optimizeList,
       "varList"     : dataRecord.varList
     }
@@ -220,7 +223,7 @@ class HtmlFormulaClass:
       html.addBody( '</td>' )
 
       # . add/change variable
-      html.addBody( '<td rowspan="4" class="tdButtonSelectVariable optBigSelectActionHide" >' )
+      html.addBody( '<td rowspan="5" class="tdButtonSelectVariable optBigSelectActionHide" >' )
 
       html.addBody( '<button type="button" id="buttonSelectVariableAdd"    >&gt;</button> ' )
       html.addBody( '<br>' )
@@ -229,14 +232,14 @@ class HtmlFormulaClass:
       html.addBody( '</td>' )
 
       # . list of variables
-      html.addBody( '<td rowspan="4" class="optBigSelectActionHide">' )
-      html.addBody( '<select id="selectVariable" name="selectVariable" size="4" class="widthSelectOptimzeCustom height100">' )
+      html.addBody( '<td rowspan="5" class="optBigSelectActionHide">' )
+      html.addBody( '<select id="selectVariable" name="selectVariable" size="5" class="widthSelectOptimzeCustom height100">' )
       html.addBody( '</select>' )
       html.addBody( '</td>' )
 
       # . list of all optimization actions
-      html.addBody( '<td rowspan="4" class=optBigSelectActionExpand">' )
-      html.addBody( '<select id="inputFieldOptimzeCustom" name="inputFieldOptimzeCustom" size="4" class="widthSelectOptimzeCustom height100">' )
+      html.addBody( '<td rowspan="5" class=optBigSelectActionExpand">' )
+      html.addBody( '<select id="inputFieldOptimzeCustom" name="inputFieldOptimzeCustom" size="5" class="widthSelectOptimzeCustom height100">' )
       arrCustom = self.dbFormula.getOptimzeCustoms()
       for objOptimze in arrCustom :
         html.addBody( '<option value="' + objOptimze[ 'code' ] + '" title="' + escape( objOptimze[ 'description' ] ) + '">' + escape( objOptimze[ 'code' ] + ' - ' + objOptimze[ 'description' ] ) + '</option>' )
@@ -244,20 +247,20 @@ class HtmlFormulaClass:
       html.addBody( '</td>' )
 
       # . buttons to add/remove optimization action
-      html.addBody( '<td rowspan="4" class="tdButtonSelectOptimzeCustom">' )
+      html.addBody( '<td rowspan="5" class="tdButtonSelectOptimzeCustom">' )
       html.addBody( '<button type="button" id="buttonInputFieldAddCustom"    >&gt;</button> ' )
       html.addBody( '<br>' )
       html.addBody( '<button type="button" id="buttonInputFieldRemoveCustom" >&lt;</button> ' )
       html.addBody( '</td>' )
 
       # . list of selected optimization actions
-      html.addBody( '<td rowspan="4" class=optBigSelectActionExpand">' )
-      html.addBody( '<select id="inputFieldOptimzeSelected" name="inputFieldOptimzeSelected" size="4" class="widthSelectOptimzeCustom height100">' )
+      html.addBody( '<td rowspan="5" class=optBigSelectActionExpand">' )
+      html.addBody( '<select id="inputFieldOptimzeSelected" name="inputFieldOptimzeSelected" size="5" class="widthSelectOptimzeCustom height100">' )
       html.addBody( '</select>' )
       html.addBody( '</td>' )
 
       # . button to move selected optimization actions up/down
-      html.addBody( '<td rowspan="4" class="tdButtonSelectOptimzeCustom" >' )
+      html.addBody( '<td rowspan="5" class="tdButtonSelectOptimzeCustom" >' )
 
       html.addBody('<input type="checkbox" id="checkBoxInputFieldBigCustom" name="inputFormulaBigAction" value="big" title="Make the selection big">' )
       html.addBody( '<br>' )
@@ -267,17 +270,33 @@ class HtmlFormulaClass:
       html.addBody( '</td>' )
 
       html.addBody( '</tr>' )
+
+
+      # check boxes (calculate real values and replace variables)
       html.addBody( '<tr class="optBigSelectActionHide">'  )
 
       # empty
       html.addBody( '<td></td>' )
 
-      # check boxes (calculate real values and replace variables)
       html.addBody( '<td>' )
       html.addBody('<input type="checkbox" id="inputFormulaCalc" name="inputFormulaCalc" value="Calc">' )
       html.addBody('<label for="inputFormulaCalc">Calc</label>' )
       html.addBody('<input type="checkbox" id="inputFormulaReplace" name="inputFormulaReplace" value="Replace">' )
       html.addBody('<label for="inputFormulaCalc">Replace</label>' )
+      html.addBody( '</td>' )
+
+      html.addBody( '</tr>' )
+
+
+      # check boxe only display answer no interim results
+      html.addBody( '<tr class="optBigSelectActionHide">'  )
+
+      # empty
+      html.addBody( '<td></td>' )
+
+      html.addBody( '<td>' )
+      html.addBody('<input type="checkbox" id="inputFormulaAnswerOnly" name="inputFormulaAnswerOnly" value="AnswerOnly">' )
+      html.addBody('<label for="inputFormulaAnswerOnly">Answer only</label>' )
       html.addBody( '</td>' )
 
       html.addBody( '</tr>' )
