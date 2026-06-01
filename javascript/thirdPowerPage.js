@@ -90,6 +90,10 @@ function initJavascript() {
 
   // init scherm velden
   fncSelectMathChange();
+
+  // set correct height, see thirdPowerPage.css
+  document.documentElement.style.setProperty('--heightInputForm', inputHeight = document.getElementById( "inputForm" ).offsetHeight + "px");
+
 }
 
 //

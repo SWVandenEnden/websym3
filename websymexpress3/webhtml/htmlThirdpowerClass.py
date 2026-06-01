@@ -230,7 +230,7 @@ class HtmlThirdpowerClass:
     html.addBody( '<div class="divRight">' )
 
     # data input
-    html.addBody( '<div class="inputForm resizer">' )
+    html.addBody( '<div id="inputForm" class="inputForm resizer">' )
     AddInputDiv()
     html.addBody( '</div>' )
 

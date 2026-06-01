@@ -237,7 +237,7 @@ class HtmlFourthpowerClass:
     html.addBody( '<div class="divRight">' )
 
     # input fields
-    html.addBody( '<div class="inputForm resizer">' )
+    html.addBody( '<div id="inputForm" class="inputForm resizer">' )
     AddInputDiv()
     html.addBody( '</div>' )
 

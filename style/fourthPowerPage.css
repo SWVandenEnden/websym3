@@ -1,3 +1,7 @@
+:root {
+  /* is browser depended, see fourthPowerPage.js */
+  --heightInputForm: 304px;
+}
 
 
 #selectMathFourthpower {
@@ -16,12 +20,13 @@
 }
 
 .inputForm {
-  height    : 43%;
+  /* height    : 43%; */
   min-height: 290px;
 }
 
 .inputIFrame {
-  height: 57%;
+  /* height: 57%; */
+  height: calc( 100% - var( --heightInputForm ));
   border: 1px solid black;
 }
 

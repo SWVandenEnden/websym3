@@ -94,6 +94,7 @@
 
 .buttonInput {
   width: 8em;
+  vertical-align:top;
 }
 
 .buttonInputSave {
