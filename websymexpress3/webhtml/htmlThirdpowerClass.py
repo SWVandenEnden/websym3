@@ -154,7 +154,7 @@ class HtmlThirdpowerClass:
 
       # input code and description
       html.addBody( '<div class="inputFormulaHeader">' )
-      html.addBody( '<label for="inputFieldCode labelWidth">Code</label>' )
+      html.addBody( '<label for="inputFieldCode" class="labelWidth">Code</label>' )
       html.addBody( '<input id="inputFieldCode" class="inputWidth" type="text" value="">' )
       html.addBody( '</div>' )
 
@@ -169,22 +169,22 @@ class HtmlThirdpowerClass:
       html.addBody( '</div>' )
 
       html.addBody( '<div class="inputField">' )
-      html.addBody( '<label for="inputFieldA labelWidth">a</label>' )
+      html.addBody( '<label for="inputFieldA" class="labelWidth">a</label>' )
       html.addBody( '<input id="inputFieldA" class="inputWidth" type="text" value="">' )
       html.addBody( '</div>' )
 
       html.addBody( '<div class="inputField">' )
-      html.addBody( '<label for="inputFieldB labelWidth">b</label>' )
+      html.addBody( '<label for="inputFieldB" class="labelWidth">b</label>' )
       html.addBody( '<input id="inputFieldB" class="inputWidth" type="text" value="">' )
       html.addBody( '</div>' )
 
       html.addBody( '<div class="inputField">' )
-      html.addBody( '<label for="inputFieldC labelWidth">c</label>' )
+      html.addBody( '<label for="inputFieldC" class="labelWidth">c</label>' )
       html.addBody( '<input id="inputFieldC" class="inputWidth" type="text" value="">' )
       html.addBody( '</div>' )
 
       html.addBody( '<div class="inputField">' )
-      html.addBody( '<label for="inputFieldD labelWidth">d</label>' )
+      html.addBody( '<label for="inputFieldD" class="labelWidth">d</label>' )
       html.addBody( '<input id="inputFieldD" class="inputWidth" type="text" value="">' )
       html.addBody( '</div>' )
 

@@ -238,7 +238,7 @@ class HtmlFormulaClass:
       html.addBody( '</td>' )
 
       # . list of all optimization actions
-      html.addBody( '<td rowspan="5" class=optBigSelectActionExpand">' )
+      html.addBody( '<td rowspan="5" class="optBigSelectActionExpand">' )
       html.addBody( '<select id="inputFieldOptimzeCustom" name="inputFieldOptimzeCustom" size="5" class="widthSelectOptimzeCustom height100">' )
       arrCustom = self.dbFormula.getOptimzeCustoms()
       for objOptimze in arrCustom :
@@ -254,7 +254,7 @@ class HtmlFormulaClass:
       html.addBody( '</td>' )
 
       # . list of selected optimization actions
-      html.addBody( '<td rowspan="5" class=optBigSelectActionExpand">' )
+      html.addBody( '<td rowspan="5" class="optBigSelectActionExpand">' )
       html.addBody( '<select id="inputFieldOptimzeSelected" name="inputFieldOptimzeSelected" size="5" class="widthSelectOptimzeCustom height100">' )
       html.addBody( '</select>' )
       html.addBody( '</td>' )

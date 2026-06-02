@@ -148,7 +148,7 @@ class HtmlTschirnhausClass:
 
       # input code and description
       html.addBody( '<div class="inputFormulaHeader">' )
-      html.addBody( '<label for="inputFieldCode labelWidth">Code</label>' )
+      html.addBody( '<label for="inputFieldCode" class="labelWidth">Code</label>' )
       html.addBody( '<input id="inputFieldCode" class="inputWidth" type="text" value="">' )
       html.addBody( '</div>' )
 
@@ -160,12 +160,12 @@ class HtmlTschirnhausClass:
       # input parameters variable and eliminatePowers
 
       html.addBody( '<div class="inputField">' )
-      html.addBody( '<label for="inputFieldVariable labelWidth">Variable</label>' )
+      html.addBody( '<label for="inputFieldVariable" class="labelWidth">Variable</label>' )
       html.addBody( '<input id="inputFieldVariable" class="inputWidth" type="text" value="">' )
       html.addBody( '</div>' )
 
       html.addBody( '<div class="inputField">' )
-      html.addBody( '<label for="inputFieldEliminatePowers labelWidth">Eliminate</label>' )
+      html.addBody( '<label for="inputFieldEliminatePowers" class="labelWidth">Eliminate</label>' )
       html.addBody( '<input id="inputFieldEliminatePowers" class="inputWidth" type="text" value="">' )
       html.addBody( '</div>' )
 

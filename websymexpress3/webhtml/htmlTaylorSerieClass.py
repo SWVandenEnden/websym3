@@ -151,7 +151,7 @@ class HtmlTaylorSerieClass:
 
       # input code and description
       html.addBody( '<div class="inputFormulaHeader">' )
-      html.addBody( '<label for="inputFieldCode labelWidth">Code</label>' )
+      html.addBody( '<label for="inputFieldCode" class="labelWidth">Code</label>' )
       html.addBody( '<input id="inputFieldCode" class="inputWidth" type="text" value="">' )
       html.addBody( '</div>' )
 
@@ -163,17 +163,17 @@ class HtmlTaylorSerieClass:
       # input parameters steps, baseValue and diffVar
 
       html.addBody( '<div class="inputField">' )
-      html.addBody( '<label for="inputFieldSteps labelWidth">Steps</label>' )
+      html.addBody( '<label for="inputFieldSteps" class="labelWidth">Steps</label>' )
       html.addBody( '<input id="inputFieldSteps" class="inputWidth" type="text" value="">' )
       html.addBody( '</div>' )
 
       html.addBody( '<div class="inputField">' )
-      html.addBody( '<label for="inputFieldBaseValue labelWidth">Point</label>' )
+      html.addBody( '<label for="inputFieldBaseValue" class="labelWidth">Point</label>' )
       html.addBody( '<input id="inputFieldBaseValue" class="inputWidth" type="text" value="">' )
       html.addBody( '</div>' )
 
       html.addBody( '<div class="inputField">' )
-      html.addBody( '<label for="inputFieldDiffVar labelWidth">Variable</label>' )
+      html.addBody( '<label for="inputFieldDiffVar" class="labelWidth">Variable</label>' )
       html.addBody( '<input id="inputFieldDiffVar" class="inputWidth" type="text" value="">' )
       html.addBody( '</div>' )
 
