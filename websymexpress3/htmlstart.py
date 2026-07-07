@@ -20,6 +20,7 @@ import quarticequation
 import sym3taylorserie
 import sym3resultant
 import sym3tschirnhaus
+import sym3polynomialdivision
 
 from websymexpress3.webcgi   import cgiClass       # https://stackoverflow.com/questions/275174/how-do-i-perform-html-decoding-encoding-using-python-django
 from websymexpress3          import settingsClass
@@ -30,6 +31,7 @@ from websymexpress3.database import dbTaylorSerieClass
 from websymexpress3.database import dbThirdpowerClass
 from websymexpress3.database import dbFourthpowerClass
 from websymexpress3.database import dbTschirnhausClass
+from websymexpress3.database import dbPolyDivClass
 from websymexpress3.database import dbGraphClass
 
 from websymexpress3.webhtml  import htmlClass
@@ -39,6 +41,7 @@ from websymexpress3.webhtml  import htmlTaylorSerieClass
 from websymexpress3.webhtml  import htmlThirdpowerClass
 from websymexpress3.webhtml  import htmlFourthpowerClass
 from websymexpress3.webhtml  import htmlTschirnhausClass
+from websymexpress3.webhtml  import htmlPolyDivClass
 from websymexpress3.webhtml  import htmlGraphClass
 
 def HtmlOutput( httpHandler = None, config = None  ):
@@ -57,6 +60,7 @@ def HtmlOutput( httpHandler = None, config = None  ):
   dbThirdpower    = dbThirdpowerClass.DbThirdpowerClass(       settings )
   dbFourthpower   = dbFourthpowerClass.DbFourthpowerClass(     settings )
   dbTschirnhaus   = dbTschirnhausClass.DbTschirnhausClass(     settings )
+  dbPolyDiv       = dbPolyDivClass.DbPolyDivClass(             settings )
   dbGraph         = dbGraphClass.DbGraphClass(                 settings )
   htmlFormula     = htmlFormulaClass.HtmlFormulaClass(         settings, cgi, dbFormula     )
   htmlResultant   = htmlResultantClass.HtmlResultantClass(     settings, cgi, dbResultant   )
@@ -64,6 +68,7 @@ def HtmlOutput( httpHandler = None, config = None  ):
   htmlThirdpower  = htmlThirdpowerClass.HtmlThirdpowerClass(   settings, cgi, dbThirdpower  )
   htmlFourthpower = htmlFourthpowerClass.HtmlFourthpowerClass( settings, cgi, dbFourthpower )
   htmlTschirnhaus = htmlTschirnhausClass.HtmlTschirnhausClass( settings, cgi, dbTschirnhaus )
+  htmlPolyDiv     = htmlPolyDivClass.HtmlPolyDivClass(         settings, cgi, dbPolyDiv     )
   htmlGraph       = htmlGraphClass.HtmlGraphClass(             settings, cgi, dbGraph       )
 
   proglist = {}
@@ -79,6 +84,8 @@ def HtmlOutput( httpHandler = None, config = None  ):
   proglist[ "resultant"   ][ "name" ] = "Resultant"
   proglist[ "tschirnhaus" ] = {}
   proglist[ "tschirnhaus" ][ "name" ] = "Tschirnhaus transformation"
+  proglist[ "polydiv"     ] = {}
+  proglist[ "polydiv"     ][ "name" ] = "Polynomial division"
   proglist[ "graph"       ] = {}
   proglist[ "graph"       ][ "name" ] = "Graph"
   proglist[ "infoPage"    ] = {}
@@ -133,6 +140,11 @@ def HtmlOutput( httpHandler = None, config = None  ):
     case "tschirnhausJsonSave"  : outputPage = htmlTschirnhaus.jsonDataSave(   options )
     case "tschirnhausJsonDelete": outputPage = htmlTschirnhaus.jsonDataDelete( key     )
 
+    case "polydiv"              : outputPage = htmlPolyDiv.htmlPage()
+    case "polydivJsonData"      : outputPage = htmlPolyDiv.jsonDataPage(   key     )
+    case "polydivJsonSave"      : outputPage = htmlPolyDiv.jsonDataSave(   options )
+    case "polydivJsonDelete"    : outputPage = htmlPolyDiv.jsonDataDelete( key     )
+
     case "graph"                : outputPage = htmlGraph.mathGraphPage()
     case "graphJsonList"        : outputPage = htmlGraph.jsonDataList()
     case "graphJsonData"        : outputPage = htmlGraph.jsonDataPage(   key     )
@@ -185,13 +197,14 @@ def InfoHtmlPage(cgi, settings):
   html.addBody( '<h2 class="center">Versions</h2>')
 
   html.addBody( '<table>' )
-  _addVersion( html, 'websym3'        , settings.version            )
-  _addVersion( html, 'symexpress3'    , symexpress3.__version__     )
-  _addVersion( html, 'cubicequation'  , cubicequation.__version__   )
-  _addVersion( html, 'quarticequation', quarticequation.__version__ )
-  _addVersion( html, 'sym3taylorserie', sym3taylorserie.__version__ )
-  _addVersion( html, 'sym3resultant'  , sym3resultant.__version__   )
-  _addVersion( html, 'sym3tschirnhaus', sym3tschirnhaus.__version__ )
+  _addVersion( html, 'websym3'               , settings.version                   )
+  _addVersion( html, 'symexpress3'           , symexpress3.__version__            )
+  _addVersion( html, 'cubicequation'         , cubicequation.__version__          )
+  _addVersion( html, 'quarticequation'       , quarticequation.__version__        )
+  _addVersion( html, 'sym3taylorserie'       , sym3taylorserie.__version__        )
+  _addVersion( html, 'sym3resultant'         , sym3resultant.__version__          )
+  _addVersion( html, 'sym3tschirnhaus'       , sym3tschirnhaus.__version__        )
+  _addVersion( html, 'sym3polynomialdivision', sym3polynomialdivision.__version__ )
 
   html.addBody( '</table>' )
 
@@ -279,7 +292,7 @@ def StartHtmlPage(cgi, progList, settings):
   html.addCss( '#tablevert {' )
   html.addCss( '  position: fixed;' )
   html.addCss( '  right   : 47%;' )
-  html.addCss( '  top     : 35%;' )
+  html.addCss( '  top     : 42%;' )
   html.addCss( '  transform: translateY(-50%);' )
   html.addCss( '}' )
 

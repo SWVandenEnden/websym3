@@ -7,3 +7,4 @@ quarticequation >= 0.0.3
 sym3taylorserie >= 0.0.1
 sym3resultant >= 0.0.1
 sym3tschirnhaus >= 0.0.1
+sym3polynomialdivision >= 0.0.1

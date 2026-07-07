@@ -17,6 +17,7 @@ class SettingsClass():
     self._tblTaylorSerie = "taylorserie"
     self._tblThirdpower  = "thirdpower"
     self._tblFourthpower = "fourthpower"
+    self._tblPolyDiv     = "polydiv"
     self._tblGraph       = "graph"
     self._dbDir          = "tobefilled"
     self._version        = "0.0.0"
@@ -136,6 +137,17 @@ class SettingsClass():
   def tblResultant(self, value):
     self._tblResultant = value
 
+  @property
+  def tblPolyDiv(self):
+    """
+    Physic name of the polynomial division table
+    """
+    return self._tblPolyDiv
+
+  @tblPolyDiv.setter
+  def tblPolyDiv(self, value):
+    self._tblPolyDiv = value
+
 
   @property
   def tblTschirnhaus(self):
@@ -230,3 +242,4 @@ class SettingsClass():
     _checkCreateSub( self._dbDir, self._tblTaylorSerie )
     _checkCreateSub( self._dbDir, self._tblResultant   )
     _checkCreateSub( self._dbDir, self._tblTschirnhaus )
+    _checkCreateSub( self._dbDir, self._tblPolyDiv     )
