@@ -44,7 +44,7 @@ from websymexpress3.webhtml  import htmlTschirnhausClass
 from websymexpress3.webhtml  import htmlPolyDivClass
 from websymexpress3.webhtml  import htmlGraphClass
 
-def HtmlOutput( httpHandler = None, config = None  ):
+def HtmlOutput( httpHandler = None, config = None, settings = None ):
   """
   Main entry point for WebSymExpress3
   HTML output generator. Is called from ..\\websym3.py WebSymexpress3RequestHandler()  (search for websymexpress3.HtmlOutput)
@@ -52,8 +52,10 @@ def HtmlOutput( httpHandler = None, config = None  ):
   # it's always utf-8
   sys.stdout.reconfigure(encoding='utf-8')
 
+  if settings == None:
+    settings = settingsClass.SettingsClass(   config      )
+
   cgi             = cgiClass.CgiClass(             httpHandler )
-  settings        = settingsClass.SettingsClass(   config      )
   dbFormula       = dbFormulaClass.DbFormulaClass(             settings )
   dbResultant     = dbResultantClass.DbResultantClass(         settings )
   dbTaylorSerie   = dbTaylorSerieClass.DbTaylorSerieClass(     settings )
@@ -103,6 +105,9 @@ def HtmlOutput( httpHandler = None, config = None  ):
   sys.stderr.write( "Key    : " + str( key     ) + "\n"  )
   sys.stderr.write( "Options: " + str( options ) + "\n"  )
 
+
+  if settings.log != None:
+    settings.log.info( f"Start prog: {prog}, key {key}")
 
   outputPage = ""
 
@@ -160,6 +165,10 @@ def HtmlOutput( httpHandler = None, config = None  ):
       outputPage = StartHtmlPage( cgi, proglist, settings )
 
   cgi.writeString( outputPage )
+
+  if settings.log != None:
+    settings.log.info( f"End prog: {prog}, key {key}")
+
   # return ""
 
 

@@ -35,6 +35,9 @@ url=<url>                # Automatic open url, default http://localhost:{port}/m
 autoopenurl=<True/False> # Enable or disable automatic start url, default True
 [Calculation]
 precision=<number>       # The number of decimals for calculations, the default is 20
+[Logging]
+enabled=<True/False>     # Enable or disable logging, default False
+configfile=<filename>    # Python logging configuration file
 
 ```
 

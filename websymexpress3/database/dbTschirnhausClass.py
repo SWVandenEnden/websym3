@@ -48,8 +48,8 @@ class RecordTschirnhaus: # pylint: disable=too-few-public-methods
     if self.eliminatePowers != None and self.eliminatePowers < 0:
       self.eliminatePowers = None
 
-    if self.eliminatePowers != None and self.eliminatePowers > 2:
-      self.eliminatePowers = 2
+    if self.eliminatePowers != None and self.eliminatePowers > 3:
+      self.eliminatePowers = 3
 
     if self.eliminatePowers != None and isinstance( self.eliminatePowers, int ) != True:
       raise NameError( f'Field "eliminatePowers" is not of type int ({type(self.eliminatePowers)})' )
@@ -133,7 +133,7 @@ class DbTschirnhausClass():
 
       # pylint: disable=multiple-statements
       if 'variable'        not in optionsJson: optionsJson[ 'variable'        ] = 'x'
-      if 'eliminatePowers' not in optionsJson: optionsJson[ 'eliminatePowers' ] = 2
+      if 'eliminatePowers' not in optionsJson: optionsJson[ 'eliminatePowers' ] = 3
 
       recTschirnhaus.variable        = optionsJson[ 'variable'        ]
       recTschirnhaus.eliminatePowers = optionsJson[ 'eliminatePowers' ]
@@ -265,7 +265,7 @@ class DbTschirnhausClass():
 
     # pylint: disable=multiple-statements
     if 'variable'        not in optionsJson: optionsJson[ 'variable'        ] = 'x'
-    if 'eliminatePowers' not in optionsJson: optionsJson[ 'eliminatePowers' ] = 2
+    if 'eliminatePowers' not in optionsJson: optionsJson[ 'eliminatePowers' ] = 3
 
     if recTschirnhaus.variable        != None:  optionsJson[ 'variable'        ] = recTschirnhaus.variable
     if recTschirnhaus.eliminatePowers != None:  optionsJson[ 'eliminatePowers' ] = recTschirnhaus.eliminatePowers

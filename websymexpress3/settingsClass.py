@@ -4,6 +4,8 @@
 Setting class for WebSymExpress3
 """
 import os
+import logging
+import logging.config
 
 class SettingsClass():
   """
@@ -25,12 +27,21 @@ class SettingsClass():
     self._starturl       = "/math/index.html"
     self._curProgCode    = "" # current program code
     self._curProgName    = "" # current program name
+    self._logger         = None
 
     if self._config != None:
       self._dbDir        = config[ 'Path'  ]  [ 'data'     ]
       self._templateDir  = config[ 'Path'    ][ 'template' ]
       self._starturl     = config[ 'Start'   ][ 'starturl' ]
       self._version      = config[ 'Version' ][ 'version'  ]
+
+      # start Python logging module
+      if config[ 'Logging' ][ 'enabled'  ] == 'True':
+        self._logger = logging.getLogger()
+        if config[ 'Logging' ][ 'configfile' ] != '' :
+          logging.config.fileConfig( config[ 'Logging' ][ 'configfile' ] )
+
+        self._logger.info( "Logging started")
     else:
       self._dbDir        = os.path.join( os.getcwd(), 'data'     )
       self._templateDir  = os.path.join( os.getcwd(), 'template' )
@@ -65,6 +76,18 @@ class SettingsClass():
   @currentProgramCode.setter
   def currentProgramCode(self, val):
     self._curProgCode = val
+
+
+  @property
+  def log(self):
+    """
+    The Python logger handle, None = no logger
+    """
+    return self._logger
+
+  @log.setter
+  def log(self, val):
+    self._logger = val
 
 
   @property

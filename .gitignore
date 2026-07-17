@@ -38,3 +38,6 @@ data/*
 websym3.bat
 websym3.sh
 websym3.ini
+websym3.log
+logging.ini
+

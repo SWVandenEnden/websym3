@@ -53,10 +53,11 @@ __status__      = "Development"
 
 # ---------- Global vars ---------------
 
-globalHttpd  = None     # http.server.ThreadingHTTPServer
-globalConfig = None     # configparser.ConfigParser
+globalHttpd    = None     # http.server.ThreadingHTTPServer
+globalConfig   = None     # configparser.ConfigParser
+globalSettings = None     # websymexpress3.settingsClass.py
 
-globalDebug  = False
+globalDebug    = False
 
 
 # ---------- Program ---------------
@@ -75,6 +76,8 @@ def DisplayHelp():
   print( "  -a <True/False>  : Enable/disable automatic open url" )
   print( "  -c <filename>    : Configuration file" )
   print( "  -dps <number>    : Calculation precision" )
+  print( "  -l <True/False>  : Logging enable/disable" )
+  print( "  -lfile <filename>: Logging configuration file" )
   print( " " )
   print( "Example: " )
   print( 'python websym3 -p 9090' )
@@ -97,6 +100,10 @@ def DisplayHelp():
   print( " " )
   print( "[Calculation]" )
   print( "precision=<number>       # The number of decimals for calculations, the default is 20")
+  print( " " )
+  print( "[Logging]" )
+  print( "enabled=<True/False>     # Enable or disable logging, default False" )
+  print( "configfile=<filename>    # Python logging configuration file" )
   print( " " )
 
 
@@ -133,6 +140,10 @@ def ReadConfiguration( argv = None ):
   config[ "Calculation" ] = {}
   config[ "Calculation" ][ "precision" ] = "20"
 
+  config[ "Logging" ] = {}
+  config[ "Logging" ][ "enabled"    ] = "False"
+  config[ "Logging" ][ "configfile" ] = ""
+
 
   # Process argv
   hashArg = {}
@@ -167,6 +178,15 @@ def ReadConfiguration( argv = None ):
         mode = "precision"
         continue
 
+      if cArg == "-l":
+        mode = "logenabled"
+        continue
+
+      if cArg == "-lfile":
+        mode = "logfile"
+        continue
+
+
       if cArg == "-h":
         DisplayHelp()
         return None
@@ -194,12 +214,27 @@ def ReadConfiguration( argv = None ):
   if "url"         in hashArg: config[ "Start"       ][ "url"         ] = hashArg[ "url"         ]
   if "autoopenurl" in hashArg: config[ "Start"       ][ "autoopenurl" ] = hashArg[ "autoopenurl" ]
   if "precision"   in hashArg: config[ "Calculation" ][ "precision"   ] = hashArg[ "precision"   ]
+  if "logenabled"  in hashArg: config[ "Logging"     ][ "enabled"     ] = hashArg[ "logenabled"  ]
+  if "logfile"     in hashArg: config[ "Logging"     ][ "configfile"  ] = hashArg[ "logfile"     ]
+
+
 
   # with open( configFileName, 'w') as configfile:
   #   config.write(configfile)
 
   # precision for calculations, https://mpmath.org/doc/current/basics.html
   mpmath.mp.dps = int( config[ "Calculation" ][ "precision" ] )
+
+  # standardization of data
+  if config[ 'Start' ]['autoopenurl'] in ( 'True', 'true', 'Yes', 'yes', 'T', 't', '1' ):
+    config[ 'Start' ]['autoopenurl'] = 'True'
+  else:
+    config[ 'Start' ]['autoopenurl'] = 'False'
+
+  if config[ 'Logging' ]['enabled'] in ( 'True', 'true', 'Yes', 'yes', 'T', 't', '1' ):
+    config[ 'Logging' ]['enabled'] = 'True'
+  else:
+    config[ 'Logging' ]['enabled'] = 'False'
 
 
   # user/ini-file cannot set this
@@ -212,10 +247,14 @@ def CheckConfiguration():
   """
   Check if the configuration is valid
   """
+  global globalSettings  # pylint: disable=global-statement
+
   # read settings, it check it self
   setting = websymexpress3.settingsClass.SettingsClass( globalConfig )
 
   setting.checkCreateDirs()
+
+  globalSettings = setting
 
   return True
 
@@ -309,7 +348,7 @@ class WebSymexpress3RequestHandler(http.server.SimpleHTTPRequestHandler):
           self._defaultError()
           return
 
-        websymexpress3.HtmlOutput( self, globalConfig )
+        websymexpress3.HtmlOutput( self, globalConfig, globalSettings )
         return
 
       self._defaultError()
@@ -354,7 +393,7 @@ globalHttpd    = http.server.ThreadingHTTPServer(server_address,WebSymexpress3Re
 
 
 # open start url
-if globalConfig[ 'Start' ]['autoopenurl'] in ( 'True', 'true', 'Yes', 'yes', 'T', 't', '1' ):
+if globalConfig[ 'Start' ]['autoopenurl'] == 'True':
   webbrowser.open_new_tab( globalConfig[ 'Start' ]['url'].replace( '{port}', globalConfig[ 'Server' ]['port'] ) )
 
 
